@@ -8,7 +8,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        Red_colors: {
+        Red_Colors: {
           'Lavender_Blush': '#fff1f1',
           'Misty_Rose': '#ffdfdf',
           'Tea_Rose': '#ffc5c5',
@@ -21,7 +21,7 @@ module.exports = {
           'OU_crimson': '#881414',
           'black_Bean': '#4b0404',
         },
-        Orange_colors: {
+        Orange_Colors: {
           'Red': '#ff0000',
           'Light Salmon': '#ffa07a',
           'Salmon': '#fa8072',
@@ -70,7 +70,7 @@ module.exports = {
           'SGBUS_Green': '#00e603',
           'Kelly_Green': '#00b807',
           'India_Green': '#008b06',
-          'Dartmouth_Greem': '#0b5c10',
+          'Dartmouth_Green': '#0b5c10',
           'Pakistan_Green': '#003406',
         },
         Cyan_Colors: {
