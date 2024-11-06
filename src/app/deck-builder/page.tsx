@@ -17,7 +17,7 @@ interface CardData {
 }
 
 const DeckBuilderPage: React.FC = () => {
-  const [cards, setCards] = useState<CardData[]>([]);
+  const [cards, setCards] = useState<CardData[]>([]); // Ensure it's initialized as an empty array
   const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -27,7 +27,7 @@ const DeckBuilderPage: React.FC = () => {
     try {
       const response = await fetch(`https://api.scryfall.com/cards/search?q=${query}&order=name&page=1&unique=cards`);
       const data = await response.json();
-      setCards(data.data);
+      setCards(data.data); // Update cards with API response
     } catch (error) {
       console.error("Error fetching cards:", error);
     }
@@ -40,7 +40,7 @@ const DeckBuilderPage: React.FC = () => {
 
     const delayDebounce = setTimeout(() => {
       fetchCards(searchQuery);
-    }, 300); // Wait 300ms before triggering fetch
+    }, 100); // Wait 300ms before triggering fetch
 
     return () => clearTimeout(delayDebounce); // Cleanup on each keystroke
   }, [searchQuery]);
@@ -56,7 +56,7 @@ const DeckBuilderPage: React.FC = () => {
   return (
     <div className="p-8">
       <h1 className="text-3xl font-bold mb-4">Deck Builder</h1>
-      <Button label="Add Card (Not functional)" onClick={handleButtonClick} />
+      <Button label="Add Card" onClick={handleButtonClick} />
 
       <input
         type="text"
@@ -70,16 +70,19 @@ const DeckBuilderPage: React.FC = () => {
         <p>Loading cards...</p>
       ) : (
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2 mt-8">
-          {cards.map(card => (
-            <div key={card.id} className="flex justify-center">
-              <Card
-                title={card.name}
-                description={card.oracle_text}
-                imageUrl={card.image_uris?.normal}
-                className="max-w-xs" // Keep max width for smaller cards
-              />
-            </div>
-          ))}
+          {Array.isArray(cards) && cards.length > 0 ? (
+            cards.map(card => (
+              <div key={card.id} className="flex justify-center">
+                <Card
+                  title={card.name}
+                  description={card.oracle_text}
+                  imageUrl={card.image_uris?.normal}
+                />
+              </div>
+            ))
+          ) : (
+            <p>No cards found.</p>
+          )}
         </div>
       )}
     </div>
