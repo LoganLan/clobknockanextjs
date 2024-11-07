@@ -198,29 +198,26 @@ return (
 
 
               {/* Will have to change name of link later */}
-            <div className="flex items-center">
-                <Link href="/explore_page" className="text-white bg-gray-500 hover:bg-gray-600 cursor-pointer rounded-lg px-2 py-1 mx-2">
-                    Explore
-                </Link>
-            </div>
+              
+              <div className="flex items-center space-x-5 mx-2">
 
-            <div className="flex items-center">
-                <Link href="/help_page" className="text-white bg-gray-500 hover:bg-gray-600 cursor-pointer rounded-lg px-2 py-1 mx-2">
-                    help
-                </Link>
-            </div>
+      <Link href="/landing-page" className="text-lg text-Green_Colors-India_Green bg-Yellow_Colors-old-gold hover:bg-White_Colors-Jet hover:text-Red_Colors-Red px-2 py-1 rounded-md">
+        Home
+      </Link>
+      <Link href="/deck-builder" className="text-lg text-Yellow_Colors-Icterine bg-Blue_Colors-Zaffre hover:text-Green_Colors-Pakistan_Green hover:bg-Red_Colors-bittersweet px-2 py-1 rounded-md">
+        Explore
+      </Link>
+      <Link href="/help-page" className="text-lg  text-Blue_Colors-Cornflower_Blue bg-White_Colors-Jet hover:bg-Green_Colors-Dartmouth_Green hover:text-Red_Colors-bittersweet px-2 py-1 rounded-md">
+        Help
+      </Link>
+      <Link href="/register-page" className="text-lg text-Green_Colors-Green bg-Red_Colors-OU_crimson hover:text-Yellow_Colors-old-gold hover:bg-Blue_Colors-Persian_Blue px-2 py-1 rounded-md">
+        Register
+      </Link>
+      <Link href="/login-page" className="text-lg text-Yellow_Colors-Yellow bg-Green_Colors-India_Green hover:text-White_Colors-Jet hover:bg-Yellow_Colors-old-gold px-2 py-1 rounded-md">
+        Sign In
+      </Link>
 
-            <div className="flex items-center">
-                <Link href="/login_page" className="text-white bg-gray-500 hover:bg-gray-600 cursor-pointer rounded-lg px-2 py-1 mx-2">
-                    Sign in
-                </Link>
-            </div>
-
-            <div className="flex items-center">
-                <Link href="/Register_page" className="text-white bg-gray-500 hover:bg-gray-600 cursor-pointer rounded-lg px-2 py-1 mx-2">
-                   Register
-                </Link>
-            </div>
+    </div>
 
           </div>
         </ul>
@@ -330,7 +327,7 @@ return (
         backgroundColor: '#3d3d3d',
       }}
     >
-      <p>&copy; Created by Logan, Nathan and Soraya</p>
+      <p>&copy; Created by Logan,Nathan and Soraya</p>
       <p>
         <a href="#home" style={{ marginRight: '15px' }}>
           Privacy Policy
