@@ -40,7 +40,7 @@ const DeckBuilderPage: React.FC = () => {
     }
     setLoading(false);
   };
-// Fetch decks from the server
+// Fetch decks from the servers
 const fetchDecks = async () => {
   try {
     const user_id = 1; // Replace this with the actual user ID from your session
