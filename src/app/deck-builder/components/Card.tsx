@@ -8,6 +8,7 @@ const Card: React.FC<{ title: string; description: string; imageUrl: string; cla
       </div>
     );
   };
+  //s
   
   export default Card;
   
