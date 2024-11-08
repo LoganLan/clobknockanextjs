@@ -247,7 +247,7 @@ return (
       }}
     >
       <h1 style={{ margin: 0, fontSize: '22px' }}>
-        A Data Base for Magic the Gathering
+        A Database for Magic the Gathering
       </h1>
     </div>
 
@@ -327,7 +327,7 @@ return (
         backgroundColor: '#3d3d3d',
       }}
     >
-      <p>&copy; Created by Logan,Nathan and Soraya</p>
+      <p>&copy; Created by Logan, Nathan, and Soraya</p>
       <p>
         <a href="#home" style={{ marginRight: '15px' }}>
           Privacy Policy
