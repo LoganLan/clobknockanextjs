@@ -201,19 +201,19 @@ return (
               
               <div className="flex items-center space-x-5 mx-2">
 
-      <Link href="/landing-page" className="text-lg text-Green_Colors-India_Green bg-Yellow_Colors-old-gold hover:bg-White_Colors-Jet hover:text-Red_Colors-Red px-2 py-1 rounded-md">
+      <Link href="/landing-page" className="text-lg text-Blue_Colors-Palatinate_Blue bg-White_Colors-platinum hover:bg-White_Colors-Jet hover:text-Red_Colors-Red px-2 py-1 rounded-md">
         Home
       </Link>
-      <Link href="/deck-builder" className="text-lg text-Yellow_Colors-Icterine bg-Blue_Colors-Zaffre hover:text-Green_Colors-Pakistan_Green hover:bg-Red_Colors-bittersweet px-2 py-1 rounded-md">
+      <Link href="/deck-builder" className="text-lg text-White_Colors-Jet bg-Blue_Colors-Cornflower_Blue hover:text-Red_Colors-Red hover:bg-Green_Colors-Pakistan_Green px-2 py-1 rounded-md">
         Explore
       </Link>
-      <Link href="/help-page" className="text-lg  text-Blue_Colors-Cornflower_Blue bg-White_Colors-Jet hover:bg-Green_Colors-Dartmouth_Green hover:text-Red_Colors-bittersweet px-2 py-1 rounded-md">
+      <Link href="/help-page" className="text-lg  text-Red_Colors-Red bg-White_Colors-Jet hover:bg-Green_Colors-Dartmouth_Green hover:text-White_Colors-platinum px-2 py-1 rounded-md">
         Help
       </Link>
-      <Link href="/register-page" className="text-lg text-Green_Colors-Green bg-Red_Colors-OU_crimson hover:text-Yellow_Colors-old-gold hover:bg-Blue_Colors-Persian_Blue px-2 py-1 rounded-md">
+      <Link href="/register-page" className="text-lg text-Green_Colors-Green bg-Red_Colors-OU_crimson hover:text-White_Colors-platinum hover:bg-Blue_Colors-Persian_Blue px-2 py-1 rounded-md">
         Register
       </Link>
-      <Link href="/login-page" className="text-lg text-Yellow_Colors-Yellow bg-Green_Colors-India_Green hover:text-White_Colors-Jet hover:bg-Yellow_Colors-old-gold px-2 py-1 rounded-md">
+      <Link href="/login-page" className="text-lg text-White_Colors-platinum bg-Green_Colors-India_Green hover:text-Blue_Colors-Cornflower_Blue hover:bg-White_Colors-Jet px-2 py-1 rounded-md">
         Sign In
       </Link>
 

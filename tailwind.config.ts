@@ -40,7 +40,7 @@ module.exports = {
           'anti-flash-white': '#efefef', //100
           'platinum': '#dcdcdc', // 200
           'silver': '#bdbdbd', // 300
-          'Battleship-grey': '#989898',
+          'battleship-grey': '#989898', // 400
           'Gray': '#7c7c7c', //500
           'Dim-Gray': '#656565', // 600
           'Davys-Gray': '#525252', // 700

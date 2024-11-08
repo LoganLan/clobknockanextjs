@@ -40,20 +40,31 @@ const DeckBuilderPage: React.FC = () => {
     }
     setLoading(false);
   };
-
-  // Fetch decks from the server
-  const fetchDecks = async () => {
-    try {
-      const response = await fetch('/api/decks/list');
-      if (!response.ok) {
-        throw new Error("Failed to fetch decks");
-      }
-      const data = await response.json();
-      setDecks(data.decks);
-    } catch (error) {
-      console.error("Error fetching decks:", error);
+// Fetch decks from the server
+const fetchDecks = async () => {
+  try {
+    const user_id = 1; // Replace this with the actual user ID from your session
+    const response = await fetch(`/api/decks?user_id=${user_id}`);
+    
+    if (!response.ok) {
+      console.error("Response not OK:", response.status, response.statusText);
+      setDecks([]);
+      return;
     }
-  };
+    
+    const data = await response.json();
+    if (data && Array.isArray(data.decks)) {
+      setDecks(data.decks);
+    } else {
+      console.warn("Unexpected data structure:", data);
+      setDecks([]);
+    }
+  } catch (error) {
+    console.error("Network or parsing error while fetching decks:", error);
+    setDecks([]);
+  }
+};
+
 
   // Debounced search query effect
   useEffect(() => {

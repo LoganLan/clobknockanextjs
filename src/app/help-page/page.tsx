@@ -1,5 +1,6 @@
 "use client"; // This enables client-side rendering
 
+import Link from "next/link"
 import { FC, useState } from 'react';
 
 const Help: FC = () => {
@@ -14,32 +15,32 @@ const Help: FC = () => {
     {
       question: 'How do I reset my password?',
       answer: 'You can reset your password by clicking on the "Forgot Password" link on the login page.',
-      questionColor: 'text-Yellow_Colors-Golden-brown', // Red color for the question
-      answerColor: 'text-Cyan_Colors-Dark_Cyan',  // Green color for the answer
+      questionColor: 'text-Blue_Colors-Palatinate_Blue', // Red color for the question
+      answerColor: 'text-White_Colors-Jet',  // Green color for the answer
     },
     {
       question: 'Where can I update my account details?',
       answer: 'You can update your account details from the "Account Settings" page after logging in.',
-      questionColor: 'text-Cyan_Colors-Dark_Cyan', // Blue color for the question
-      answerColor: 'text-yellow-600', // Yellow color for the answer
+      questionColor: 'text-Blue_Colors-Palatinate_Blue', // Blue color for the question
+      answerColor: 'text-White_Colors-Jet', // Yellow color for the answer
     },
     {
       question: 'How do I contact support?',
       answer: 'You can contact support by emailing us at support@example.com.',
-      questionColor: 'text-purple-600', // Purple color for the question
-      answerColor: 'text-orange-600', // Orange color for the answer
+      questionColor: 'text-Blue_Colors-Palatinate_Blue', // Purple color for the question
+      answerColor: 'text-White_Colors-Jet', // Orange color for the answer
     },
     {
         question: 'Can I use your service on my mobile device?',
         answer: 'Yes you can! Simply go to our website on your phone and it will work perfectly! ',
-        questionColor: 'text-purple-600', // Purple color for the question
-        answerColor: 'text-orange-600', // Orange color for the answer
+        questionColor: 'text-Blue_Colors-Palatinate_Blue', // Purple color for the question
+        answerColor: 'text-White_Colors-Jet', // Orange color for the answer
       },
       {
         question: 'What should I do if the website is down?',
         answer: 'If the website is down, please  email us at support@example.com.',
-        questionColor: 'text-purple-600', // Purple color for the question
-        answerColor: 'text-orange-600', // Orange color for the answer
+        questionColor: 'text-Blue_Colors-Palatinate_Blue', // Purple color for the question
+        answerColor: 'text-White_Colors-Jet', // Orange color for the answer
       },
   ];
 
@@ -48,6 +49,23 @@ const Help: FC = () => {
       {/* Header */}
       <header className="bg-blue-600 p-4 text-white text-center">
         <h1 className="text-3xl font-bold">Help Page</h1>
+
+        <div className="flex space-x-4 ml-4">
+                <div>
+                    <Link href="/landing-page" className="text-lg text-Blue_Colors-Palatinate_Blue bg-White_Colors-platinum hover:bg-White_Colors-Jet hover:text-Red_Colors-Red px-2 py-1 rounded-md">
+                    Home
+                    </Link>
+                </div>
+
+                <div>
+                <Link href="/deck-builder" className="text-lg text-White_Colors-Jet bg-White_Colors-anti-flash-white hover:text-Red_Colors-Red hover:bg-Green_Colors-Pakistan_Green px-2 py-1 rounded-md">
+                     Explore
+                </Link>
+                </div>
+        </div>
+
+
+
       </header>
 
       {/* Main content */}
@@ -76,18 +94,18 @@ const Help: FC = () => {
 
         {/* Troubleshooting Section */}
         <section className="mt-8">
-          <h2 className="text-2xl font-bold mb-4 text-White_Colors-outer-space">Troubleshooting</h2>
+          <h2 className="text-2xl font-bold mb-4 text-White_Colors-Battleship-grey">Troubleshooting</h2>
           <ul className="list-disc list-inside space-y-2">
-            <p className="text-White_Colors-outer-space">If the site does not load, try refreshing the page.</p>
-            <li className="text-White_Colors-outer-space">Clear your browser`s cache if you experience issues.</li>
-            <li className="text-White_Colors-outer-space">Check your internet connection.</li>
+            <p className="text-Blue_Colors-Palatinate_Blue">If the site does not load, try refreshing the page.</p>
+            <li className="text-White_Colors-Jet">Clear your browser`s cache if you experience issues.</li>
+            <li className="text-White_Colors-Jet">Check your internet connection.</li>
           </ul>
         </section>
 
         {/* Contact Information */}
         <section className="mt-8">
-          <h2 className="text-2xl font-bold mb-4 text-White_Colors-outer-space">Contact Us</h2>
-          <p className="text-White_Colors-outer-space">
+          <h2 className="text-2xl font-bold mb-4 text-White_Colors-Battleship-grey">Contact Us</h2>
+          <p className="text-White_Colors-Jet">
             If you need further assistance, feel free to reach out to us at:
             <br />
             <span className="font-semibold text-Blue_Colors-Cornflower_Blue">support@example.com</span>
