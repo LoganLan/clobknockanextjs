@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useEffect, useState } from 'react';
 import Button from './components/Button';
 import Card from './components/Card';
@@ -27,6 +26,8 @@ const DeckBuilderPage: React.FC = () => {
   const [deckName, setDeckName] = useState(""); // For deck name input
   const [deckId, setDeckId] = useState<number | null>(null); // Store created deck ID after it's created
   const [decks, setDecks] = useState<Deck[]>([]); // Store the list of decks
+  const [selectedCard, setSelectedCard] = useState<CardData | null>(null);
+  const [selectedDeckId, setSelectedDeckId] = useState<number | null>(null);
 
   // Fetch cards from Scryfall API based on search query
   const fetchCards = async (query: string) => {
@@ -40,31 +41,31 @@ const DeckBuilderPage: React.FC = () => {
     }
     setLoading(false);
   };
-// Fetch decks from the server
-const fetchDecks = async () => {
-  try {
-    const user_id = 1; // Replace this with the actual user ID from your session
-    const response = await fetch(`/api/decks?user_id=${user_id}`);
-    
-    if (!response.ok) {
-      console.error("Response not OK:", response.status, response.statusText);
-      setDecks([]);
-      return;
-    }
-    
-    const data = await response.json();
-    if (data && Array.isArray(data.decks)) {
-      setDecks(data.decks);
-    } else {
-      console.warn("Unexpected data structure:", data);
-      setDecks([]);
-    }
-  } catch (error) {
-    console.error("Network or parsing error while fetching decks:", error);
-    setDecks([]);
-  }
-};
 
+  // Fetch decks from the server
+  const fetchDecks = async () => {
+    try {
+      const user_id = 1; // Replace this with the actual user ID from your session
+      const response = await fetch(`/api/decks?user_id=${user_id}`);
+      
+      if (!response.ok) {
+        console.error("Response not OK:", response.status, response.statusText);
+        setDecks([]);
+        return;
+      }
+      
+      const data = await response.json();
+      if (data && Array.isArray(data.decks)) {
+        setDecks(data.decks);
+      } else {
+        console.warn("Unexpected data structure:", data);
+        setDecks([]);
+      }
+    } catch (error) {
+      console.error("Network or parsing error while fetching decks:", error);
+      setDecks([]);
+    }
+  };
 
   // Debounced search query effect
   useEffect(() => {
@@ -96,7 +97,6 @@ const fetchDecks = async () => {
       return;
     }
 
-    // Simulate getting user_id from session or authentication system
     const user_id = 1; // Replace this with actual user ID retrieved from session
 
     const deckPayload = {
@@ -110,7 +110,7 @@ const fetchDecks = async () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(deckPayload), // Send user_id with the deck name
+        body: JSON.stringify(deckPayload),
       });
 
       if (!response.ok) {
@@ -132,6 +132,35 @@ const fetchDecks = async () => {
       console.error("Error creating deck:", error);
       alert("Error creating deck.");
     }
+  };
+
+  const handleAddCardToDeck = async () => {
+    if (!selectedDeckId || !selectedCard) return;
+
+    try {
+      const response = await fetch('/api/decks/addCard', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ deck_id: selectedDeckId, card_id: selectedCard.id, quantity: 1 }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        alert(`Failed to add card: ${errorData.error || 'Unknown error'}`);
+        return;
+      }
+
+      alert("Card added successfully!");
+    } catch (error) {
+      console.error("Error adding card to deck:", error);
+      alert("Error adding card to deck.");
+    }
+  };
+
+  const handleCardSelect = (card: CardData) => {
+    setSelectedCard(card); // Set the selected card when a card is clicked
   };
 
   return (
@@ -165,13 +194,27 @@ const fetchDecks = async () => {
       </div>
       
       {/* Search bar for cards */}
-            <input
+      <input
         type="text"
         value={searchQuery}
         onChange={handleInputChange}
         placeholder="Search for a card"
         className="border border-gray-300 rounded-lg p-2 mt-4 w-full"
       />
+      
+      {/* Display selected card and option to add to a deck */}
+      {selectedCard && (
+        <div>
+          <h2>Add "{selectedCard.name}" to a Deck</h2>
+          <select onChange={(e) => setSelectedDeckId(Number(e.target.value))} value={selectedDeckId || ''}>
+            <option value="">Select Deck</option>
+            {decks.map(deck => (
+              <option key={deck.deck_id} value={deck.deck_id}>{deck.deck_name}</option>
+            ))}
+          </select>
+          <button onClick={handleAddCardToDeck}>Add to Deck</button>
+        </div>
+      )}
 
       {/* Display cards */}
       {loading ? (
@@ -180,7 +223,11 @@ const fetchDecks = async () => {
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2 mt-8">
           {Array.isArray(cards) && cards.length > 0 ? (
             cards.map(card => (
-              <div key={card.id} className="flex justify-center">
+              <div
+                key={card.id}
+                className="flex justify-center cursor-pointer"
+                onClick={() => handleCardSelect(card)} // Set the selected card when clicked
+              >
                 <Card
                   title={card.name}
                   description={card.oracle_text}

@@ -23,9 +23,10 @@ CREATE TABLE decks (
 CREATE TABLE deck_cards (
     deck_card_id SERIAL PRIMARY KEY,
     deck_id INT REFERENCES decks(deck_id) ON DELETE CASCADE,
-    card_id VARCHAR(50) NOT NULL, -- Scryfall card ID
+    card_id VARCHAR(50) NOT NULL,  -- Scryfall card ID
     quantity INT DEFAULT 1 CHECK (quantity > 0),
-    added_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    added_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT unique_deck_card UNIQUE(deck_id, card_id)  -- Add a composite unique constraint here
 );
 
 -- Index to speed up searching cards within a deck
