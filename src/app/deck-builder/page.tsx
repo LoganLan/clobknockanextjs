@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import Button from './components/Button';
 import Card from './components/Card';
+import Link from 'next/link';
 
 interface CardData {
   id: string;
@@ -178,6 +179,9 @@ const DeckBuilderPage: React.FC = () => {
         />
         <Button label="Create Deck" onClick={handleCreateDeck} />
       </div>
+      <Link href="/decks" className="text-lg text-White_Colors-platinum bg-Green_Colors-India_Green hover:text-Blue_Colors-Cornflower_Blue hover:bg-White_Colors-Jet px-2 py-1 rounded-md">
+              Decks
+      </Link>
 
       {/* Display the list of decks */}
       <div className="mt-8">

@@ -39,14 +39,17 @@ const DeckListPage: React.FC = () => {
 
   return (
     <div>
-      <h1>Your Decks</h1>
+      <Link href="/deck-builder" className="text-lg  text-Red_Colors-Red bg-White_Colors-Jet hover:bg-Green_Colors-Dartmouth_Green hover:text-White_Colors-platinum px-2 py-1 rounded-md">
+        Deck Builder
+      </Link>
+      <h1 className="text-3xl font-bold mb-4 m-4">Your Decks</h1>
       {decks.length === 0 ? (
         <p>No decks found.</p>
       ) : (
         <ul>
           {decks.map((deck) => (
             <li key={deck.deck_id}>
-              <Link href={`/decks/${deck.deck_id}`}>{deck.deck_name}</Link>
+              <Link className="text-lg hover:text-Blue_Colors-Cornflower_Blue hover:bg-blue m-4" href={`/decks/${deck.deck_id}`}>{deck.deck_name}</Link>
             </li>
           ))}
         </ul>
