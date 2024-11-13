@@ -14,6 +14,7 @@ interface Deck {
   deck_id: number;
   deck_name: string;
   deck_type: string;
+  deck_color: string; // Added color field to deck
 }
 
 interface DeckPageProps {
@@ -27,10 +28,13 @@ const deckTypes = [
   "Standard", "Tiny Leaders", "Two-Headed Giant", "Vintage"
 ];
 
-const colorTypes = ["White (W)", "Blue (U)", "Black (B)", "Red (R)", "Green (G)",
-  "Azorius(WU)", "Boros(WR)", "Orzhov(WB)", "Dimir(UB)", "Golgari(BG)", "Selesnya(GW)", "Gruul(GR)", "Izzet(UR)", "Rakdos(BR)", "Simic(UG)",
-"Bant(WUG)", "Esper(WUB)", "Grixis(UBR)", "Jund(RBG)", "Naya(WRG)", "Mardu(RWB)", "Temur(UGR)", "Abzan(BWG)", "Jeskai(RWU)", "Sultai(BGU)",
-"Chaos(UBRG)", "Dune(WBRG)", "Witch(WUBG)", "Yore(WUBR)", "Altruism(WBGR)"];
+const colorTypes = [
+  "White (W)", "Blue (U)", "Black (B)", "Red (R)", "Green (G)",
+  "Azorius(WU)", "Boros(WR)", "Orzhov(WB)", "Dimir(UB)", "Golgari(BG)", "Selesnya(GW)", "Gruul(GR)", "Izzet(UR)", 
+  "Rakdos(BR)", "Simic(UG)", "Bant(WUG)", "Esper(WUB)", "Grixis(UBR)", "Jund(RBG)", "Naya(WRG)", "Mardu(RWB)", 
+  "Temur(UGR)", "Abzan(BWG)", "Jeskai(RWU)", "Sultai(BGU)", "Chaos(UBRG)", "Dune(WBRG)", "Witch(WUBG)", 
+  "Yore(WUBR)", "Altruism(WBGR)"
+];
 
 const DeckPage: React.FC<DeckPageProps> = ({ params }) => {
   const [deckId, setDeckId] = useState<string | null>(null);
@@ -58,6 +62,7 @@ const DeckPage: React.FC<DeckPageProps> = ({ params }) => {
           const data = await response.json();
           if (response.ok) {
             setDeck(data.deck);
+            setCards(data.cards); // Assuming the API response has a 'cards' property
           } else {
             console.error('Error fetching deck:', data.error);
           }
@@ -92,39 +97,19 @@ const DeckPage: React.FC<DeckPageProps> = ({ params }) => {
       <Link href="/decks" className="text-lg text-White_Colors-platinum bg-Green_Colors-India_Green hover:text-Blue_Colors-Cornflower_Blue hover:bg-White_Colors-Jet px-2 py-1 rounded-md">
         Decks
       </Link>
-      <Link href="/deck-builder" className="text-lg text-Red_Colors-Red bg-White_Colors-Jet hover:bg-Green_Colors-Dartmouth_Green hover:text-White_Colors-platinum px-2 py-1 rounded-md">
-        Deck Builder
-      <Link href="/decks" className="text-lg text-White_Colors-platinum bg-Green_Colors-India_Green hover:text-Blue_Colors-Cornflower_Blue hover:bg-White_Colors-Jet px-2 py-1 rounded-md">
-        Decks
-      </Link>
-      <Link href="/deck-builder" className="text-lg text-Red_Colors-Red bg-White_Colors-Jet hover:bg-Green_Colors-Dartmouth_Green hover:text-White_Colors-platinum px-2 py-1 rounded-md">
-        Deck Builder
-      </Link>
+
       <h1 className="text-3xl font-bold">{deck.deck_name}</h1>
-
-      {/* Display each card */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
-        {cards.map((card) => (
-          <div key={card.card_id} className="border p-4 rounded-lg">
-            <img src={card.image_url} alt={card.name} className="w-full h-auto mb-2" />
-            <h3 className="text-lg font-semibold">{card.name}</h3>
-            <p className="text-sm">Quantity: {card.quantity}</p>
-          </div>
-        ))}
-      </div>
-
-      <h1 className="text-3xl font-bold mt-4 text-White_Colors-platinum">{deck.deck_name}</h1>
 
       {/* Tab Navigation */}
       <div className="mt-4">
-        <button 
-          onClick={() => handleTabSwitch('type')} 
+        <button
+          onClick={() => handleTabSwitch('type')}
           className={`mr-4 p-2 ${activeTab === 'type' ? 'text-white bg-blue-600' : 'text-gray-300'}`}
         >
           Deck Type
         </button>
-        <button 
-          onClick={() => handleTabSwitch('color')} 
+        <button
+          onClick={() => handleTabSwitch('color')}
           className={`p-2 ${activeTab === 'color' ? 'text-white bg-blue-600' : 'text-gray-300'}`}
         >
           Color Combinations
@@ -166,21 +151,32 @@ const DeckPage: React.FC<DeckPageProps> = ({ params }) => {
         </div>
       )}
 
-      {/* Table to show the selected information */}
-      <table className="table-auto mt-6 w-full text-White_Colors-anti-flash-white">
-        <thead>
-          <tr>
-            <th className="px-4 py-2">Deck Name</th>
-            <th className="px-4 py-2">{activeTab === 'type' ? 'Deck Type' : 'Deck Color'}</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td className="border px-4 py-2">{deck.deck_name}</td>
-            <td className="border px-4 py-2">{activeTab === 'type' ? selectedType : selectedColor}</td>
-          </tr>
-        </tbody>
-      </table>
+      {/* Display each card */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+        {cards.length === 0 ? (
+          <p>No cards found.</p>
+        ) : (
+          cards.map((card) => (
+            <div key={card.card_id} className="border p-4 rounded-lg">
+              <img
+                src={card.image_url}
+                alt={card.name}
+                className="w-full h-auto mb-2"
+                onError={(e) => (e.target as HTMLImageElement).src = '/default-image.jpg'} // Fallback image if the image doesn't load
+              />
+              <h3 className="text-lg font-semibold">{card.name}</h3>
+              <p className="text-sm">Quantity: {card.quantity}</p>
+            </div>
+          ))
+        )}
+      </div>
+
+      {/* Display Deck Type and Color */}
+      <div className="mt-6">
+        <h3 className="text-xl font-semibold">Deck Type & Color</h3>
+        <p>Type: {deck.deck_type}</p>
+        <p>Color: {deck.deck_color}</p>
+      </div>
     </div>
   );
 };
