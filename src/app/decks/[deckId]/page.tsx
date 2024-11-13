@@ -3,6 +3,13 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 
+interface Card {
+  card_id: string;
+  name: string;
+  image_url: string;
+  quantity: number;
+}
+
 interface Deck {
   deck_id: number;
   deck_name: string;
@@ -28,6 +35,7 @@ const colorTypes = ["White (W)", "Blue (U)", "Black (B)", "Red (R)", "Green (G)"
 const DeckPage: React.FC<DeckPageProps> = ({ params }) => {
   const [deckId, setDeckId] = useState<string | null>(null);
   const [deck, setDeck] = useState<Deck | null>(null);
+  const [cards, setCards] = useState<Card[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedType, setSelectedType] = useState<string>('Commander');
   const [selectedColor, setSelectedColor] = useState<string>('White');
@@ -86,7 +94,24 @@ const DeckPage: React.FC<DeckPageProps> = ({ params }) => {
       </Link>
       <Link href="/deck-builder" className="text-lg text-Red_Colors-Red bg-White_Colors-Jet hover:bg-Green_Colors-Dartmouth_Green hover:text-White_Colors-platinum px-2 py-1 rounded-md">
         Deck Builder
+      <Link href="/decks" className="text-lg text-White_Colors-platinum bg-Green_Colors-India_Green hover:text-Blue_Colors-Cornflower_Blue hover:bg-White_Colors-Jet px-2 py-1 rounded-md">
+        Decks
       </Link>
+      <Link href="/deck-builder" className="text-lg text-Red_Colors-Red bg-White_Colors-Jet hover:bg-Green_Colors-Dartmouth_Green hover:text-White_Colors-platinum px-2 py-1 rounded-md">
+        Deck Builder
+      </Link>
+      <h1 className="text-3xl font-bold">{deck.deck_name}</h1>
+
+      {/* Display each card */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+        {cards.map((card) => (
+          <div key={card.card_id} className="border p-4 rounded-lg">
+            <img src={card.image_url} alt={card.name} className="w-full h-auto mb-2" />
+            <h3 className="text-lg font-semibold">{card.name}</h3>
+            <p className="text-sm">Quantity: {card.quantity}</p>
+          </div>
+        ))}
+      </div>
 
       <h1 className="text-3xl font-bold mt-4 text-White_Colors-platinum">{deck.deck_name}</h1>
 
