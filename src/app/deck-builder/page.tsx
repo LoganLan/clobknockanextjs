@@ -219,7 +219,7 @@ const DeckBuilderPage: React.FC = () => {
           value={deckName}
           onChange={handleDeckNameChange}
           placeholder="Enter deck name"
-          className="border border-gray-300 rounded-lg p-2 w-full mb-4"
+          className="border border-gray-300 rounded-lg p-2 w-full mb-4 text-White_Colors-outer-space"
         />
         <Button label="Create Deck" onClick={handleCreateDeck} />
       </div>
@@ -247,21 +247,26 @@ const DeckBuilderPage: React.FC = () => {
         value={searchQuery}
         onChange={handleInputChange}
         placeholder="Search for a card"
-        className="border border-gray-300 rounded-lg p-2 mt-4 w-full"
+        className="border border-gray-300 rounded-lg p-2 mt-4 w-full text-White_Colors-Onyx"
       />
       
       {/* Display selected card and option to add to a deck */}
       {selectedCard && (
         <div>
-          <h2 className=' text-White_Colors-Davys-Gray'>Add "{selectedCard.name}" to a Deck</h2>
-          <select onChange={(e) => setSelectedDeckId(Number(e.target.value))} value={selectedDeckId || ''}>
-            <option value="">Select Deck</option>
-            {decks.map(deck => (
-              <option key={deck.deck_id} value={deck.deck_id}>{deck.deck_name}</option>
-            ))}
-          </select>
-          <button onClick={handleAddCardToDeck}>Add to Deck</button>
-        </div>
+        <h2 className='text-White_Colors-platinum'>Add "{selectedCard.name}" to a Deck</h2>
+        <select 
+          onChange={(e) => setSelectedDeckId(Number(e.target.value))} 
+          value={selectedDeckId || ''} 
+          className='text-White_Colors-outer-space'
+        >
+          <option value="" className='text-White_Colors-outer-space'>Select Deck</option>
+          {decks.map(deck => (
+            <option key={deck.deck_id} value={deck.deck_id} className='text-White_Colors-outer-space'>{deck.deck_name}</option>
+          ))}
+        </select>
+        <button onClick={handleAddCardToDeck}>Add to Deck</button>
+      </div>
+      
       )}
 
       {/* Display cards */}
