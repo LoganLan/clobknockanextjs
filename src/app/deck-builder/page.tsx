@@ -1,4 +1,5 @@
-"use client";
+'use client';
+
 import React, { useEffect, useState } from 'react';
 import Button from './components/Button';
 import Card from './components/Card';
@@ -166,6 +167,49 @@ const DeckBuilderPage: React.FC = () => {
 
   return (
     <div className="p-8">
+
+      {/* Header */}
+  <header
+        style={{
+          display: "flex",
+          backgroundColor: "grey",
+          justifyContent: "space-between",
+          alignItems: "center",
+          padding: "10px 20px",
+          flexWrap: "wrap", // Allows wrapping for smaller screens
+        }}
+      >
+        <div className="flex items-center">
+          <Link href="/landing-page" legacyBehavior>
+            <a className="text-2xl text-white hover-rainbow" style={{ margin: 0 }}>
+              Clobknocka
+            </a>
+          </Link>
+          <div className="h-8 w-px bg-white ml-4 rounded-full"></div>
+        </div>
+
+        <nav className="flex items-center">
+          <div className="flex items-center space-x-5 mx-2">
+            <Link href="/landing-page" className="text-lg text-Blue_Colors-Palatinate_Blue bg-White_Colors-platinum hover:bg-White_Colors-Jet hover:text-Red_Colors-Red px-2 py-1 rounded-md">
+              Home
+            </Link>
+            <Link href="/deck-builder" className="text-lg text-White_Colors-Jet bg-Blue_Colors-Zaffre hover:text-Red_Colors-Red hover:bg-Green_Colors-Pakistan_Green px-2 py-1 rounded-md">
+              Explore
+            </Link>
+            <Link href="/help-page" className="text-lg  text-Red_Colors-Red bg-White_Colors-Jet hover:bg-Green_Colors-Dartmouth_Green hover:text-White_Colors-platinum px-2 py-1 rounded-md">
+              Help
+            </Link>
+            <Link href="/register-page" className="text-lg text-Green_Colors-Green bg-Red_Colors-OU_crimson hover:text-White_Colors-platinum hover:bg-Blue_Colors-Persian_Blue px-2 py-1 rounded-md">
+              Register
+            </Link>
+            <Link href="/login-page" className="text-lg text-White_Colors-platinum bg-Green_Colors-India_Green hover:text-Blue_Colors-Cornflower_Blue hover:bg-White_Colors-Jet px-2 py-1 rounded-md">
+              Sign In
+            </Link>
+          </div>
+        </nav>
+      </header>
+
+
       <h1 className="text-3xl font-bold mb-4">Deck Builder</h1>
       
       {/* Deck name input */}
@@ -209,7 +253,7 @@ const DeckBuilderPage: React.FC = () => {
       {/* Display selected card and option to add to a deck */}
       {selectedCard && (
         <div>
-          <h2>Add "{selectedCard.name}" to a Deck</h2>
+          <h2 className=' text-White_Colors-Davys-Gray'>Add "{selectedCard.name}" to a Deck</h2>
           <select onChange={(e) => setSelectedDeckId(Number(e.target.value))} value={selectedDeckId || ''}>
             <option value="">Select Deck</option>
             {decks.map(deck => (
@@ -224,7 +268,7 @@ const DeckBuilderPage: React.FC = () => {
       {loading ? (
         <p>Loading cards...</p>
       ) : (
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2 mt-8">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2 mt-8 text-White_Colors-anti-flash-white">
           {Array.isArray(cards) && cards.length > 0 ? (
             cards.map(card => (
               <div
@@ -241,7 +285,60 @@ const DeckBuilderPage: React.FC = () => {
             ))
           ) : (
             <p>No cards found.</p>
+
+
+
+            
+            
           )}
+
+             {/* Footer */}
+<footer
+  style={{
+    width: '100vw', // Full width across the screen
+    position: 'relative',
+    left: '50%',
+    transform: 'translateX(-50%)', // Center the footer properly
+    textAlign: 'center',
+    padding: '20px',
+    backgroundColor: '#3d3d3d',
+  }}
+  className="rounded-lg overflow-hidden mt-8"
+>
+  <p>&copy; Created by Logan, Nathan, and Soraya</p>
+  <p>
+    <a href="#home" style={{ marginRight: '15px' }}>Privacy Policy</a>
+    <a href="#home">Terms of Service</a>
+  </p>
+</footer>
+
+{/* Custom animation */}
+<style jsx>{`
+  @keyframes rainbow {
+    0% { color: #ffffff; } /* White */
+    12.5% { color: #6e9aff; } /* Cornflower_Blue */
+    25% { color: #989898; } /* battleship-grey */
+    37.5% { color: #ed1515; } /* Red(CMYK) */
+    50% { color: #22ff1f; } /* Green */
+    62.5% { color: #dcdcdc; } /* platinum */
+    75% { color: #1f40ff; } /* Palatinate_Blue */
+    87.5% { color: #525252; } /* Davys-Gray */
+    90% { color: #c80d0d; } /* Engineering_Orange */
+    100% { color: #008b06; } /* India_Green */
+  }
+
+  /* Apply hover and transition effect */
+  .hover-rainbow {
+    display: inline-block; /* Ensure the element behaves like a button/link */
+    transition: color 0.5s ease-in-out; /* Smooth transition for color change */
+  }
+
+  .hover-rainbow:hover {
+    animation: rainbow 5s linear infinite; /* Smooth color cycling */
+  }
+`}</style>
+
+
         </div>
       )}
     </div>

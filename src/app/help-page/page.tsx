@@ -94,7 +94,7 @@ const Help: FC = () => {
 
         {/* Troubleshooting Section */}
         <section className="mt-8">
-          <h2 className="text-2xl font-bold mb-4 text-White_Colors-Battleship-grey">Troubleshooting</h2>
+          <h2 className="text-2xl font-bold mb-4 text-White_Colors-Onyx">Troubleshooting</h2>
           <ul className="list-disc list-inside space-y-2">
             <p className="text-Blue_Colors-Palatinate_Blue">If the site does not load, try refreshing the page.</p>
             <li className="text-White_Colors-Jet">Clear your browser`s cache if you experience issues.</li>
@@ -104,7 +104,7 @@ const Help: FC = () => {
 
         {/* Contact Information */}
         <section className="mt-8">
-          <h2 className="text-2xl font-bold mb-4 text-White_Colors-Battleship-grey">Contact Us</h2>
+          <h2 className="text-2xl font-bold mb-4 text-White_Colors-Onyx">Contact Us</h2>
           <p className="text-White_Colors-Jet">
             If you need further assistance, feel free to reach out to us at:
             <br />
