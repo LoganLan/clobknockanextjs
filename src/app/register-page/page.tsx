@@ -37,75 +37,44 @@ const Header: React.FC = () => {
 
   return (
     <>
-      {/* Header Section */}
-      <header className="bg-White_Colors-Dim-Gray text-White_Colors-white shadow-md">
-        <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-6">
-            {/* Logo */}
-            <div className="flex-shrink-0">
-              <Link href="/" className="text-2xl font-bold text-White_Colors-platinum">
-                ClobKnocka
-              </Link>
-            </div>
+{/* Header */}
+<header
+        style={{
+          display: "flex",
+          backgroundColor: "black",
+          justifyContent: "space-between",
+          alignItems: "center",
+          padding: "10px 20px",
+          flexWrap: "wrap", // Allows wrapping for smaller screens
+        }}
+      >
+        <div className="flex items-center">
+          <Link href="/landing-page" legacyBehavior>
+            <a className="text-2xl text-white hover-rainbow" style={{ margin: 0 }}>
+              Clobknocka
+            </a>
+          </Link>
+          <div className="h-8 w-px bg-white ml-4 rounded-full"></div>
+        </div>
 
-            {/* Links for desktop */}
-            <div className="hidden md:flex space-x-4">
-              <Link href="/landing-page" className="text-lg text-Green_Colors-India_Green bg-Yellow_Colors-old-gold hover:bg-White_Colors-Jet hover:text-Red_Colors-Red px-2 py-1 rounded-md">
-                Home
-              </Link>
-              <Link href="/deck-builder" className="text-lg text-Yellow_Colors-Icterine bg-Blue_Colors-Zaffre hover:text-Green_Colors-Pakistan_Green hover:bg-Red_Colors-bittersweet px-2 py-1 rounded-md">
-                Explore
-              </Link>
-              <Link href="/help-page" className="text-lg text-Blue_Colors-Cornflower_Blue bg-White_Colors-Jet hover:bg-Green_Colors-Dartmouth_Green hover:text-Red_Colors-bittersweet px-2 py-1 rounded-md">
-                Help
-              </Link>
-              <Link href="/register-page" className="text-lg text-Green_Colors-Green bg-Red_Colors-OU_crimson hover:text-Yellow_Colors-old-gold hover:bg-Blue_Colors-Persian_Blue px-2 py-1 rounded-md">
-                Register
-              </Link>
-              <Link href="/login-page" className="text-lg text-Yellow_Colors-Yellow bg-Green_Colors-India_Green hover:text-White_Colors-Jet hover:bg-Yellow_Colors-old-gold px-2 py-1 rounded-md">
-                Sign In
-              </Link>
-            </div>
-
-            {/* Hamburger Icon for mobile */}
-            <div className="md:hidden">
-              <button onClick={toggleMenu} className="text-White_Colors-white focus:outline-none">
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d={isOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"} />
-                </svg>
-              </button>
-            </div>
+        <nav className="flex items-center">
+          <div className="flex items-center space-x-5 mx-2">
+            <Link href="/landing-page" className="text-lg text-Blue_Colors-Palatinate_Blue bg-White_Colors-platinum hover:bg-White_Colors-Jet hover:text-Red_Colors-Red px-2 py-1 rounded-md">
+              Home
+            </Link>
+            <Link href="/deck-builder" className="text-lg text-White_Colors-Jet bg-Blue_Colors-Zaffre hover:text-Red_Colors-Red hover:bg-Green_Colors-Pakistan_Green px-2 py-1 rounded-md">
+              Explore
+            </Link>
+            <Link href="/help-page" className="text-lg  text-Red_Colors-Red bg-White_Colors-Jet hover:bg-Green_Colors-Dartmouth_Green hover:text-White_Colors-platinum px-2 py-1 rounded-md">
+              Help
+            </Link>
+            <Link href="/register-page" className="text-lg text-Green_Colors-Green bg-Red_Colors-OU_crimson hover:text-White_Colors-platinum hover:bg-Blue_Colors-Persian_Blue px-2 py-1 rounded-md">
+              Register
+            </Link>
+            <Link href="/login-page" className="text-lg text-White_Colors-platinum bg-Green_Colors-India_Green hover:text-Blue_Colors-Cornflower_Blue hover:bg-White_Colors-Jet px-2 py-1 rounded-md">
+              Sign In
+            </Link>
           </div>
-
-          {/* Mobile Menu */}
-          {isOpen && (
-            <div className="md:hidden absolute top-0 right-0 px-4 py-2">
-              {/* Close button */}
-              <button onClick={toggleMenu} className="absolute top-4 right-4 text-white focus:outline-none z-10">
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                 
-                </svg>
-              </button>
-
-              <div className="flex flex-col space-y-2 mt-10">
-              <Link href="/landing-page" className="text-lg text-Blue_Colors-Palatinate_Blue bg-White_Colors-platinum hover:bg-White_Colors-Jet hover:text-Red_Colors-Red px-2 py-1 rounded-md">
-                      Home
-              </Link>
-              <Link href="/deck-builder" className="text-lg text-White_Colors-Jet bg-Blue_Colors-Zaffre hover:text-Red_Colors-Red hover:bg-Green_Colors-Pakistan_Green px-2 py-1 rounded-md">
-                      Explore
-              </Link>
-              <Link href="/help-page" className="text-lg  text-Red_Colors-Red bg-White_Colors-outer-space hover:bg-Green_Colors-Dartmouth_Green hover:text-White_Colors-platinum px-2 py-1 rounded-md">
-                      Help
-              </Link>
-              <Link href="/register-page" className="text-lg text-Green_Colors-Green bg-Red_Colors-OU_crimson hover:text-White_Colors-platinum hover:bg-Blue_Colors-Persian_Blue px-2 py-1 rounded-md">
-                      Register
-              </Link>
-              <Link href="/login-page" className="text-lg text-White_Colors-platinum bg-Green_Colors-India_Green hover:text-Blue_Colors-Cornflower_Blue hover:bg-White_Colors-Jet px-2 py-1 rounded-md">
-                     Sign In
-              </Link>
-              </div>
-            </div>
-          )}
         </nav>
       </header>
 
@@ -207,12 +176,36 @@ const Header: React.FC = () => {
 </div>
 </div>
 
+          {/* Custom animation */}
+      <style jsx>{`
+        @keyframes rainbow {
+          0% { color: #ffffff; } /* White */
+          12.5% { color: #6e9aff; } /* Cornflower_Blue */
+          25% { color: #989898; } /* battleship-grey */
+          37.5% { color: #ed1515; } /* Red(CMYK) */
+          50% { color: #22ff1f; } /* Green */
+          62.5% { color: #dcdcdc; } /* platinum */
+          75% { color: #1f40ff; } /* Palatinate_Blue */
+          87.5% { color: #525252; } /* Davys-Gray */
+          90% { color: #c80d0d; } /* Engineering_Orange */
+          100% { color: #008b06; } /* India_Green */
+        }
+
+        .hover-rainbow:hover {
+          animation: rainbow 5s infinite; /* Apply the animation */
+        }
+      `}</style>
+
+
 {/* Footer */}
 <footer className="bg-White_Colors-Dim-Gray text-center text-White_Colors-white py-6">
   <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <p className="text-sm">&copy; 2024 ClobKnocka. All rights reserved.</p>
   </div>
 </footer>
+
+
+
 </>
 );
 };
