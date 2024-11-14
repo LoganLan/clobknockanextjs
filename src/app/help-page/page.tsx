@@ -2,6 +2,8 @@
 
 import Link from "next/link"
 import { FC, useState } from 'react';
+import Header from "@/app/components/Header";
+import Footer from "@/app/components/Footer";
 
 const Help: FC = () => {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
@@ -46,27 +48,7 @@ const Help: FC = () => {
 
   return (
     <div className="bg-gray-100 min-h-screen">
-      {/* Header */}
-      <header className="bg-blue-600 p-4 text-white text-center">
-        <h1 className="text-3xl font-bold">Help Page</h1>
-
-        <div className="flex space-x-4 ml-4">
-                <div>
-                    <Link href="/landing-page" className="text-lg text-Blue_Colors-Palatinate_Blue bg-White_Colors-platinum hover:bg-White_Colors-Jet hover:text-Red_Colors-Red px-2 py-1 rounded-md">
-                    Home
-                    </Link>
-                </div>
-
-                <div>
-                <Link href="/deck-builder" className="text-lg text-White_Colors-Jet bg-White_Colors-anti-flash-white hover:text-Red_Colors-Red hover:bg-Green_Colors-Pakistan_Green px-2 py-1 rounded-md">
-                     Explore
-                </Link>
-                </div>
-        </div>
-
-
-
-      </header>
+      <Header />
 
       {/* Main content */}
       <main className="container mx-auto py-8 px-4">
@@ -114,9 +96,7 @@ const Help: FC = () => {
       </main>
 
       {/* Footer */}
-      <footer className="bg-blue-600 p-4 text-white text-center mt-8">
-        <p>&copy; 2024 Your Company. All rights reserved.</p>
-      </footer>
+      <Footer />
     </div>
   );
 };
