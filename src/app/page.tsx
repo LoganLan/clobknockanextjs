@@ -1,7 +1,6 @@
 "use client";
-import Link from "next/link"
+
 import React, { useState, useEffect } from 'react';
-import Image from 'next/image'; // Import the Image component
 import Heading from "@/app/components/Heading";
 import Footer from "@/app/components/Footer";
 
@@ -69,7 +68,6 @@ const items: string[] = [
 ];
 
 export default function Home() {
-  const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
   const [searchTerm, setSearchTerm] = useState<string>(""); // Search term state
   const [filteredItems, setFilteredItems] = useState<string[]>([]); // Filtered results state
   const [categories, setCategories] = useState<Categories>({

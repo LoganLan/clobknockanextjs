@@ -1,6 +1,5 @@
 "use client"; // This enables client-side rendering
 
-import Link from "next/link"
 import { FC, useState } from 'react';
 import Heading from "@/app/components/Heading";
 import Footer from "@/app/components/Footer";

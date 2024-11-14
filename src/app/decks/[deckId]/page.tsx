@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Heading from "@/app/components/Heading";
 import Footer from "@/app/components/Footer";
+import Image from 'next/image';
 
 interface Card {
   card_id: string;
@@ -187,11 +188,13 @@ const DeckPage: React.FC<DeckPageProps> = ({ params }) => {
         ) : (
           filteredCards.map((card) => (
             <div key={card.card_id} className="border p-4 rounded-lg">
-              <img
+              <Image
                 src={card.image_url}
                 alt={card.name}
+                width={488}
+                height={680}
                 className="w-full h-auto mb-2"
-                onError={(e) => (e.target as HTMLImageElement).src = '/default-image.jpg'} // Fallback image if the image doesn't load
+                onError={(e) => (e.currentTarget.src = '/default-image.jpg')}
               />
               <h3 className="text-lg font-semibold">{card.name}</h3>
               <p className="text-sm">Quantity: {card.quantity}</p>
