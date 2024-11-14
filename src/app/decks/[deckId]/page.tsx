@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
-import Header from "@/app/components/Header";
+import Heading from "@/app/components/Heading";
 import Footer from "@/app/components/Footer";
 
 interface Card {
@@ -108,7 +108,7 @@ const DeckPage: React.FC<DeckPageProps> = ({ params }) => {
     
     <div>
       {/* Header component */}
-        <Header />
+        <Heading />
 
       <Link href="/decks" className="text-lg text-White_Colors-platinum bg-Green_Colors-India_Green hover:text-Blue_Colors-Cornflower_Blue hover:bg-White_Colors-Jet px-2 py-1 rounded-md">
         Decks

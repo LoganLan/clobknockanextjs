@@ -3,7 +3,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import Header from "@/app/components/Header";
+import Heading from "@/app/components/Heading";
 import Footer from "@/app/components/Footer";
 
 const Header: React.FC = () => {
@@ -39,7 +39,7 @@ const Header: React.FC = () => {
 
   return (
     <>
-<Header />
+<Heading />
 
       {/* Registration Form Section */}
       <div className="flex flex-col items-center justify-center min-h-screen bg-White_Colors-Jet">

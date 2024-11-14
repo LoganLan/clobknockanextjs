@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { FC, useState } from 'react';
-import Header from "@/app/components/Header";
+import Heading from "@/app/components/Heading";
 import Footer from "@/app/components/Footer";
 
 const Help: FC = () => {
@@ -48,7 +48,7 @@ const Help: FC = () => {
 
   return (
     <div className="bg-gray-100 min-h-screen">
-      <Header />
+      <Heading />
 
       {/* Main content */}
       <main className="container mx-auto py-8 px-4">

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import React, { useState } from "react";
-import Header from "@/app/components/Header";
+import Heading from "@/app/components/Heading";
 import Footer from "@/app/components/Footer";
 
 const LoginPage: React.FC = () => {
@@ -26,7 +26,7 @@ const LoginPage: React.FC = () => {
   return (
     <div className="flex flex-col min-h-screen bg-White_Colors-battleship-grey">
 
-<Header />
+<Heading />
 
       {/* Main content (login form) */}
       <main className="flex flex-grow items-center justify-center">
