@@ -166,7 +166,7 @@ const DeckBuilderPage: React.FC = () => {
   };
 
   return (
-    <div className="p-8">
+    <div className=" p-8">
 
       {/* Header */}
   <header
@@ -297,25 +297,16 @@ const DeckBuilderPage: React.FC = () => {
             
           )}
 
-             {/* Footer */}
-<footer
-  style={{
-    width: '100vw', // Full width across the screen
-    position: 'relative',
-    left: '50%',
-    transform: 'translateX(-50%)', // Center the footer properly
-    textAlign: 'center',
-    padding: '20px',
-    backgroundColor: '#3d3d3d',
-  }}
-  className="rounded-lg overflow-hidden mt-8"
->
-  <p>&copy; Created by Logan, Nathan, and Soraya</p>
-  <p>
-    <a href="#home" style={{ marginRight: '15px' }}>Privacy Policy</a>
-    <a href="#home">Terms of Service</a>
-  </p>
+             
+{/* Footer */}
+<footer className="w-96 text-center p-4 bg-White_Colors-Onyx text-white mt-auto  ">
+        <p>&copy; Created by Logan, Nathan, and Soraya</p>
+        <p>
+          <a href="#privacy" style={{ marginRight: '15px' }}>Privacy Policy</a>
+          <a href="#terms">Terms of Service</a>
+        </p>
 </footer>
+
 
 {/* Custom animation */}
 <style jsx>{`
