@@ -2,6 +2,8 @@
 
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
+import Header from "@/app/components/Header";
+import Footer from "@/app/components/Footer";
 
 interface Card {
   card_id: string;
@@ -102,7 +104,12 @@ const DeckPage: React.FC<DeckPageProps> = ({ params }) => {
   if (!deck) return <p>Deck not found.</p>;
 
   return (
+
+    
     <div>
+      {/* Header component */}
+        <Header />
+
       <Link href="/decks" className="text-lg text-White_Colors-platinum bg-Green_Colors-India_Green hover:text-Blue_Colors-Cornflower_Blue hover:bg-White_Colors-Jet px-2 py-1 rounded-md">
         Decks
       </Link>
@@ -199,6 +206,9 @@ const DeckPage: React.FC<DeckPageProps> = ({ params }) => {
         <p>Type: {deck.deck_type}</p>
         <p>Color: {deck.deck_color}</p>
       </div>
+
+      <Footer />
+
     </div>
   );
 };
