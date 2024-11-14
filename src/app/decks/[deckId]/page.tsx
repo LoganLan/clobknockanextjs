@@ -2,6 +2,9 @@
 
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
+import Header from "@/app/components/Header";
+import Footer from "@/app/components/Footer";
 
 interface Card {
   card_id: string;
@@ -94,6 +97,7 @@ const DeckPage: React.FC<DeckPageProps> = ({ params }) => {
 
   return (
     <div>
+      <Header />
       <Link href="/decks" className="text-lg text-White_Colors-platinum bg-Green_Colors-India_Green hover:text-Blue_Colors-Cornflower_Blue hover:bg-White_Colors-Jet px-2 py-1 rounded-md">
         Decks
       </Link>
@@ -158,11 +162,17 @@ const DeckPage: React.FC<DeckPageProps> = ({ params }) => {
         ) : (
           cards.map((card) => (
             <div key={card.card_id} className="border p-4 rounded-lg">
-              <img
-                src={card.image_url}
+              <Image
+                src={card.image_url || '/default-image.jpg'} // Set default image as fallback if card.image_url is empty
                 alt={card.name}
+                width={488} // Define a width to improve layout shift handling
+                height={680} // Define a height to improve layout shift handling
                 className="w-full h-auto mb-2"
-                onError={(e) => (e.target as HTMLImageElement).src = '/default-image.jpg'} // Fallback image if the image doesn't load
+                onError={(e) => {
+                  if (e.currentTarget.src !== '/default-image.jpg') {
+                    e.currentTarget.src = '/default-image.jpg'; // Set fallback if image fails to load
+                  }
+                }}
               />
               <h3 className="text-lg font-semibold">{card.name}</h3>
               <p className="text-sm">Quantity: {card.quantity}</p>
@@ -177,6 +187,8 @@ const DeckPage: React.FC<DeckPageProps> = ({ params }) => {
         <p>Type: {deck.deck_type}</p>
         <p>Color: {deck.deck_color}</p>
       </div>
+
+      <Footer />
     </div>
   );
 };
