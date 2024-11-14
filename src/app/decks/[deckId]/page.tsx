@@ -47,6 +47,7 @@ const DeckPage: React.FC<DeckPageProps> = ({ params }) => {
   const [selectedType, setSelectedType] = useState<string>('Commander');
   const [selectedColor, setSelectedColor] = useState<string>('White');
   const [activeTab, setActiveTab] = useState<'type' | 'color'>('type');
+  const [searchQuery, setSearchQuery] = useState<string>(''); // Search state
 
   useEffect(() => {
     const unwrapParams = async () => {
@@ -91,6 +92,14 @@ const DeckPage: React.FC<DeckPageProps> = ({ params }) => {
   const handleTabSwitch = (tab: 'type' | 'color') => {
     setActiveTab(tab);
   };
+
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(event.target.value.toLowerCase());
+  };
+
+  const filteredCards = cards.filter(card =>
+    card.name.toLowerCase().includes(searchQuery)
+  );
 
   if (loading) return <p>Loading deck...</p>;
   if (!deck) return <p>Deck not found.</p>;
@@ -155,12 +164,25 @@ const DeckPage: React.FC<DeckPageProps> = ({ params }) => {
         </div>
       )}
 
+      {/* Search bar for filtering cards */}
+      <div className="mt-4">
+        <label htmlFor="search" className="text-White_Colors-platinum">Search Cards:</label>
+        <input
+          id="search"
+          type="text"
+          value={searchQuery}
+          onChange={handleSearchChange}
+          placeholder="Search for a card..."
+          className="border rounded px-3 py-2 ml-2 text-White_Colors-Onyx bg-white"
+        />
+      </div>
+
       {/* Display each card */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
-        {cards.length === 0 ? (
-          <p>No cards found.</p>
+        {filteredCards.length === 0 ? (
+          <p>No cards match your search.</p>
         ) : (
-          cards.map((card) => (
+          filteredCards.map((card) => (
             <div key={card.card_id} className="border p-4 rounded-lg">
               <Image
                 src={card.image_url || '/default-image.jpg'} // Set default image as fallback if card.image_url is empty
@@ -194,3 +216,5 @@ const DeckPage: React.FC<DeckPageProps> = ({ params }) => {
 };
 
 export default DeckPage;
+
+// test

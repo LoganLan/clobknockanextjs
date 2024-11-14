@@ -168,7 +168,7 @@ const DeckBuilderPage: React.FC = () => {
   };
 
   return (
-    <div className="p-8">
+    <div className=" p-8">
 
     <Header />
 
@@ -283,7 +283,6 @@ const DeckBuilderPage: React.FC = () => {
               animation: rainbow 5s linear infinite; /* Smooth color cycling */
             }
           `}</style>
-
 
         </div>
       )}
