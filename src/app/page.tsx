@@ -2,7 +2,7 @@
 import Link from "next/link"
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image'; // Import the Image component
-import Header from "@/app/components/Header";
+import Heading from "@/app/components/Heading";
 import Footer from "@/app/components/Footer";
 
 
@@ -163,7 +163,7 @@ return (
   <div style={{ backgroundColor: 'Gray', minHeight: '100vh' }}>
 
     {/* Light gray background */}
-    <Header />
+    <Heading />
 
     {/* Main Content */}
     <div

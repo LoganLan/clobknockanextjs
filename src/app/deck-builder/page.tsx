@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import Button from './components/Button';
 import Card from './components/Card';
 import Link from 'next/link';
-import Header from "@/app/components/Header";
+import Heading from "@/app/components/Heading";
 import Footer from "@/app/components/Footer";
 
 interface CardData {
@@ -170,7 +170,7 @@ const DeckBuilderPage: React.FC = () => {
   return (
     <div className=" p-8">
 
-<Header />
+<Heading />
 
 
       <h1 className="text-3xl font-bold mb-4">Deck Builder</h1>

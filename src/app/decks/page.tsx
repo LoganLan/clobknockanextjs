@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
-import Header from "@/app/components/Header";
+import Heading from "@/app/components/Heading";
 import Footer from "@/app/components/Footer";
 
 interface Deck {
@@ -48,7 +48,7 @@ const DeckListPage: React.FC = () => {
     <div>
 
       {/* Header */}
-      <Header />
+      <Heading />
       <div className="pt-5 pb-5">
         <Link
           href="/deck-builder"

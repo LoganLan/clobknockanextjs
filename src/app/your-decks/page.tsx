@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Link from "next/link"
-import Header from "@/app/components/Header";
+import Header from "@/app/components/Heading";
 import Footer from "@/app/components/Footer";
 
 // Define the type for props (if needed)
