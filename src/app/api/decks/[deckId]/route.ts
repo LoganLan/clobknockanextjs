@@ -35,3 +35,31 @@ export async function GET(req: NextRequest, context: { params: { deckId: string 
     return NextResponse.json({ error: 'Error fetching deck' }, { status: 500 });
   }
 }
+
+export async function DELETE(req: NextRequest, context: { params: { deckId: string } }) {
+  // Await `params`
+  const { deckId } = await context.params;
+
+  try {
+    const { searchParams } = new URL(req.url);
+    const cardId = searchParams.get('cardId');
+
+    if (!cardId) {
+      return NextResponse.json({ error: 'Card ID is required' }, { status: 400 });
+    }
+
+    const result = await query(
+      'DELETE FROM deck_cards WHERE deck_id = $1 AND card_id = $2 RETURNING *',
+      [deckId, cardId]
+    );
+
+    if (result.rowCount === 0) {
+      return NextResponse.json({ error: 'Card not found in deck' }, { status: 404 });
+    }
+
+    return NextResponse.json({ message: 'Card deleted successfully' }, { status: 200 });
+  } catch (error) {
+    console.error('Error deleting card:', error);
+    return NextResponse.json({ error: 'Error deleting card' }, { status: 500 });
+  }
+}

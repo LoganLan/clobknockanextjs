@@ -104,9 +104,25 @@ const DeckPage: React.FC<DeckPageProps> = ({ params }) => {
   if (loading) return <p>Loading deck...</p>;
   if (!deck) return <p>Deck not found.</p>;
 
-  return (
+  const handleDeleteCard = async (cardId: string) => {
+    if (!deckId) return;
+  
+    try {
+      const response = await fetch(`/api/decks/${deckId}?cardId=${cardId}`, { method: 'DELETE' });
+  
+      if (response.ok) {
+        setCards((prevCards) => prevCards.filter((card) => card.card_id !== cardId)); // Update state
+      } else {
+        const data = await response.json();
+        console.error('Error deleting card:', data.error);
+      }
+    } catch (error) {
+      console.error('Error deleting card:', error);
+    }
+  };
+  
 
-    
+  return (
     <div>
       {/* Header component */}
         <Heading />
@@ -187,18 +203,25 @@ const DeckPage: React.FC<DeckPageProps> = ({ params }) => {
           <p>No cards match your search.</p>
         ) : (
           filteredCards.map((card) => (
-            <div key={card.card_id} className="border p-4 rounded-lg">
-              <Image
-                src={card.image_url}
-                alt={card.name}
-                width={488}
-                height={680}
-                className="w-full h-auto mb-2"
-                onError={(e) => (e.currentTarget.src = '/default-image.jpg')}
-              />
-              <h3 className="text-lg font-semibold">{card.name}</h3>
-              <p className="text-sm">Quantity: {card.quantity}</p>
-            </div>
+<div key={card.card_id} className="border p-4 rounded-lg">
+  <Image
+    src={card.image_url}
+    alt={card.name}
+    width={488}
+    height={680}
+    className="w-full h-auto mb-2"
+    onError={(e) => (e.currentTarget.src = '/default-image.jpg')}
+  />
+  <h3 className="text-lg font-semibold">{card.name}</h3>
+  <p className="text-sm">Quantity: {card.quantity}</p>
+  <button
+    onClick={() => handleDeleteCard(card.card_id)}
+    className="mt-2 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+  >
+    Delete
+  </button>
+</div>
+
           ))
         )}
       </div>
