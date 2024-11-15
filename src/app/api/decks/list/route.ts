@@ -1,7 +1,7 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { query } from '../../../data/db'; // Adjust path to db.ts
 
-export async function GET(req: NextRequest) {
+export async function GET() {
   try {
     // Simulate getting user_id from session or authentication system
     const user_id = 1; // Replace this with actual user ID

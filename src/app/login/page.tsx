@@ -1,6 +1,5 @@
 "use client"; // Add this at the top
 
-import Link from "next/link";
 import React, { useState } from "react";
 import Heading from "@/app/components/Heading";
 import Footer from "@/app/components/Footer";

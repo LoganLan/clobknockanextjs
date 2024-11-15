@@ -7,11 +7,6 @@ import Heading from "@/app/components/Heading";
 import Footer from "@/app/components/Footer";
 
 const Header: React.FC = () => {
-  const [isOpen, setIsOpen] = useState(false);
-
-  const toggleMenu = () => {
-    setIsOpen(!isOpen);
-  };
 
   // State to store form inputs
   const [formData, setFormData] = useState({

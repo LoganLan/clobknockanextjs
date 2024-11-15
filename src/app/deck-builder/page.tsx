@@ -33,7 +33,6 @@ const DeckBuilderPage: React.FC = () => {
   const [loading, setLoading] = useState(false); // For loading state
   const [searchQuery, setSearchQuery] = useState(""); // For search query input
   const [deckName, setDeckName] = useState(""); // For deck name input
-  const [deckId, setDeckId] = useState<number | null>(null); // Store created deck ID after it's created
   const [decks, setDecks] = useState<Deck[]>([]); // Store the list of decks
   const [selectedCard, setSelectedCard] = useState<CardData | null>(null);
   const [selectedDeckId, setSelectedDeckId] = useState<number | null>(null);
@@ -130,7 +129,6 @@ const DeckBuilderPage: React.FC = () => {
 
       const data = await response.json();
       if (data.deck) {
-        setDeckId(data.deck.deck_id); // Set the deck ID after successful creation
         setDeckName(""); // Clear the deck name input field
         fetchDecks(); // Fetch the updated list of decks
         alert("Deck created successfully!");
@@ -220,7 +218,7 @@ const DeckBuilderPage: React.FC = () => {
       {/* Display selected card and option to add to a deck */}
       {selectedCard && (
         <div>
-          <h2 className='text-White_Colors-platinum'>Add "{selectedCard.name}" to a Deck</h2>
+          <h2 className='text-White_Colors-platinum'>Add `{selectedCard.name}` to a Deck</h2>
           <select 
             onChange={(e) => setSelectedDeckId(Number(e.target.value))} 
             value={selectedDeckId || ''} 
