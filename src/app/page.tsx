@@ -149,7 +149,8 @@ export default function Home() {
                     "Oath of the Gatewatch", "Shadows over Innistrad", "Eldritch Moon", "Kaladesh", "Aether Revolt", "Amonkhet", "Hour of Devastation", "Ixalan", "Rivals of Ixalan", "Dominaria", "Core Set 2019", "Guilds of Ravnica", "Ravnica Allegiance", "War of the Spark", "Core Set 2020", "Throne of Eldraine", "Theros: Beyond Death", "Ikoria: Lair of Behemoths", "Core Set 2021", "Zendikar Rising", "Kaldheim", "Strixhaven: School of Mages", "Modern Horizons 2", "Dungeons & Dragons: Adventures in the Forgotten Realms", "Innistrad: Midnight Hunt", "Innistrad: Crimson Vow", "Kamigawa: Neon Dynasty", "Streets of New Capenna", "Unfinity", "Dominaria United", "The Brothers' War", "Phyrexia: All Will Be One", "March of the Machine", "March of the Machine: The Aftermath", "Eldraine Remastered", "Lost Caverns of Ixalan", "Wilds of Eldraine"].includes(item)) {
             newCategories.sets.push(item);
 
-        } else if (["Alchemy", "Brawl", "Booster Draft", "Canadian Highlander", "Commander (EDH)", "Constructed", "Cube Draft", "Duel Commander", "Extended", "Explorer", "Frontier", "Historic", "Historic Brawl", "Legacy", "Limited", "Modern", "Oathbreaker", "Pauper", "Pauper Commander", "Pioneer", "Premodern", "Sealed Deck", "Singleton", "Standard", "Tiny Leaders", "Two-Headed Giant", "Vintage"].includes(item)) {
+        } else if (["Alchemy", "Brawl", "Booster Draft", "Canadian Highlander", "Commander (EDH)", "Constructed", "Cube Draft", "Duel Commander", "Extended", "Explorer", "Frontier", "Historic", "Historic Brawl", "Legacy", "Limited", "Modern", "Oathbreaker", "Pauper", "Pauper Commander", "Pioneer",
+           "Premodern", "Sealed Deck", "Singleton", "Standard", "Tiny Leaders", "Two-Headed Giant", "Vintage"].includes(item)) {
             newCategories.formats.push(item);
         }
     });

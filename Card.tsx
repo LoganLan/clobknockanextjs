@@ -72,32 +72,32 @@ const Card: React.FC<CardProps> = ({ title, description, imageUrl, price, classN
       ) : (
         <div className="mt-2">
           <p className="text-sm text-White_Colors-anti-flash-white">Alchemy: <span className={legality.Alchemy === 'Unknown' ? 'invisible' : ''}>{legality.Alchemy}</span></p>
-          <p className="text-sm text-White_Colors-anti-flash-white">Brawl: <span className={legality.Brawl === 'Unknown' ? 'invisible' : ''}>{legality.Brawl}</span></p>
-          <p className="text-sm text-White_Colors-anti-flash-white">Booster Draft: <span className={legality.Booster === 'Unknown' ? 'invisible' : ''}>{legality.Booster}</span></p>
-          <p className="text-sm text-White_Colors-anti-flash-white">Canadian Highlander: <span className={legality.Canadian_EDH === 'Unknown' ? 'invisible' : ''}>{legality.Canadian_EDH}</span></p>
-          <p className="text-sm text-White_Colors-anti-flash-white">Commander: <span className={legality.Commander === 'Unknown' ? 'invisible' : ''}>{legality.Commander}</span></p>
+          <p className="text-sm text-Blue_Colors-Palatinate_Blue">Brawl: <span className={legality.Brawl === 'Unknown' ? 'invisible' : ''}>{legality.Brawl}</span></p>
+          <p className="text-sm text-White_Colors-battleship-grey">Booster Draft: <span className={legality.Booster === 'Unknown' ? 'invisible' : ''}>{legality.Booster}</span></p>
+          <p className="text-sm text-Red_Colors-Engineering_Orange">Canadian Highlander: <span className={legality.Canadian_EDH === 'Unknown' ? 'invisible' : ''}>{legality.Canadian_EDH}</span></p>
+          <p className="text-sm text-Green_Colors-India_Green">Commander: <span className={legality.Commander === 'Unknown' ? 'invisible' : ''}>{legality.Commander}</span></p>
           <p className="text-sm text-White_Colors-anti-flash-white">Constructed: <span className={legality.Construct === 'Unknown' ? 'invisible' : ''}>{legality.Construct}</span></p>
-          <p className="text-sm text-White_Colors-anti-flash-white">Cube Draft: <span className={legality.CubeDraft === 'Unknown' ? 'invisible' : ''}>{legality.CubeDraft}</span></p>
-          <p className="text-sm text-White_Colors-anti-flash-white">Duel Commander: <span className={legality.Duel_Commander === 'Unknown' ? 'invisible' : ''}>{legality.Duel_Commander}</span></p>
-          <p className="text-sm text-White_Colors-anti-flash-white">Extended: <span className={legality.Extended === 'Unknown' ? 'invisible' : ''}>{legality.Extended}</span></p>
-          <p className="text-sm text-White_Colors-anti-flash-white">Explorer: <span className={legality.Explorer === 'Unknown' ? 'invisible' : ''}>{legality.Explorer}</span></p>
+          <p className="text-sm text-Blue_Colors-Palatinate_Blue">Cube Draft: <span className={legality.CubeDraft === 'Unknown' ? 'invisible' : ''}>{legality.CubeDraft}</span></p>
+          <p className="text-sm text-White_Colors-battleship-grey">Duel Commander: <span className={legality.Duel_Commander === 'Unknown' ? 'invisible' : ''}>{legality.Duel_Commander}</span></p>
+          <p className="text-sm text-Red_Colors-Engineering_Orange">Extended: <span className={legality.Extended === 'Unknown' ? 'invisible' : ''}>{legality.Extended}</span></p>
+          <p className="text-sm text-Green_Colors-India_Green">Explorer: <span className={legality.Explorer === 'Unknown' ? 'invisible' : ''}>{legality.Explorer}</span></p>
           <p className="text-sm text-White_Colors-anti-flash-white">Frontier: <span className={legality.Frontier === 'Unknown' ? 'invisible' : ''}>{legality.Frontier}</span></p>
-          <p className="text-sm text-White_Colors-anti-flash-white">Historic: <span className={legality.Historic === 'Unknown' ? 'invisible' : ''}>{legality.Historic}</span></p>
-          <p className="text-sm text-White_Colors-anti-flash-white">Historic Brawl: <span className={legality.Historic_Brawl === 'Unknown' ? 'invisible' : ''}>{legality.Historic_Brawl}</span></p>
-          <p className="text-sm text-White_Colors-anti-flash-white">Legacy: <span className={legality.Legacy === 'Unknown' ? 'invisible' : ''}>{legality.Legacy}</span></p>
-          <p className="text-sm text-White_Colors-anti-flash-white">Limited: <span className={legality.Limited === 'Unknown' ? 'invisible' : ''}>{legality.Limited}</span></p>
+          <p className="text-sm text-Blue_Colors-Palatinate_Blue">Historic: <span className={legality.Historic === 'Unknown' ? 'invisible' : ''}>{legality.Historic}</span></p>
+          <p className="text-sm text-White_Colors-battleship-grey">Historic Brawl: <span className={legality.Historic_Brawl === 'Unknown' ? 'invisible' : ''}>{legality.Historic_Brawl}</span></p>
+          <p className="text-sm text-Red_Colors-Engineering_Orange">Legacy: <span className={legality.Legacy === 'Unknown' ? 'invisible' : ''}>{legality.Legacy}</span></p>
+          <p className="text-sm text-Green_Colors-India_Green">Limited: <span className={legality.Limited === 'Unknown' ? 'invisible' : ''}>{legality.Limited}</span></p>
           <p className="text-sm text-White_Colors-anti-flash-white">Modern: <span className={legality.Modern === 'Unknown' ? 'invisible' : ''}>{legality.Modern}</span></p>
-          <p className="text-sm text-White_Colors-anti-flash-white">Oathbreaker: <span className={legality.Oathbreaker === 'Unknown' ? 'invisible' : ''}>{legality.Oathbreaker}</span></p>
-          <p className="text-sm text-White_Colors-anti-flash-white">Pauper: <span className={legality.Pauper === 'Unknown' ? 'invisible' : ''}>{legality.Pauper}</span></p>
-          <p className="text-sm text-White_Colors-anti-flash-white">Pauper Commander: <span className={legality.Pauper_EDH === 'Unknown' ? 'invisible' : ''}>{legality.Pauper_EDH}</span></p>
-          <p className="text-sm text-White_Colors-anti-flash-white">Pioneer: <span className={legality.Pioneer === 'Unknown' ? 'invisible' : ''}>{legality.Pioneer}</span></p>
+          <p className="text-sm text-Blue_Colors-Palatinate_Blue">Oathbreaker: <span className={legality.Oathbreaker === 'Unknown' ? 'invisible' : ''}>{legality.Oathbreaker}</span></p>
+          <p className="text-sm text-White_Colors-battleship-grey">Pauper: <span className={legality.Pauper === 'Unknown' ? 'invisible' : ''}>{legality.Pauper}</span></p>
+          <p className="text-sm text-Red_Colors-Engineering_Orange">Pauper Commander: <span className={legality.Pauper_EDH === 'Unknown' ? 'invisible' : ''}>{legality.Pauper_EDH}</span></p>
+          <p className="text-sm text-Green_Colors-India_Green">Pioneer: <span className={legality.Pioneer === 'Unknown' ? 'invisible' : ''}>{legality.Pioneer}</span></p>
           <p className="text-sm text-White_Colors-anti-flash-white">Premodern: <span className={legality.Premodern === 'Unknown' ? 'invisible' : ''}>{legality.Premodern}</span></p>
-          <p className="text-sm text-White_Colors-anti-flash-white">Sealed Deck: <span className={legality.Sealed_Deck === 'Unknown' ? 'invisible' : ''}>{legality.Sealed_Deck}</span></p>
-          <p className="text-sm text-White_Colors-anti-flash-white">Singleton: <span className={legality.Singleton === 'Unknown' ? 'invisible' : ''}>{legality.Singleton}</span></p>
-          <p className="text-sm text-White_Colors-anti-flash-white">Standard: <span className={legality.Standard === 'Unknown' ? 'invisible' : ''}>{legality.Standard}</span></p>
-          <p className="text-sm text-White_Colors-anti-flash-white">Tiny Leaders: <span className={legality.Tiny_Leaders === 'Unknown' ? 'invisible' : ''}>{legality.Tiny_Leaders}</span></p>
+          <p className="text-sm text-Blue_Colors-Palatinate_Blue">Sealed Deck: <span className={legality.Sealed_Deck === 'Unknown' ? 'invisible' : ''}>{legality.Sealed_Deck}</span></p>
+          <p className="text-sm text-White_Colors-battleship-grey">Singleton: <span className={legality.Singleton === 'Unknown' ? 'invisible' : ''}>{legality.Singleton}</span></p>
+          <p className="text-sm text-Red_Colors-Engineering_Orange">Standard: <span className={legality.Standard === 'Unknown' ? 'invisible' : ''}>{legality.Standard}</span></p>
+          <p className="text-sm text-Green_Colors-India_Green">Tiny Leaders: <span className={legality.Tiny_Leaders === 'Unknown' ? 'invisible' : ''}>{legality.Tiny_Leaders}</span></p>
           <p className="text-sm text-White_Colors-anti-flash-white">Two-Headed Giant: <span className={legality.Two_Headed_Giant === 'Unknown' ? 'invisible' : ''}>{legality.Two_Headed_Giant}</span></p>
-          <p className="text-sm text-White_Colors-anti-flash-white">Vintage: <span className={legality.Vintage === 'Unknown' ? 'invisible' : ''}>{legality.Vintage}</span></p>
+          <p className="text-sm text-Blue_Colors-Palatinate_Blue">Vintage: <span className={legality.Vintage === 'Unknown' ? 'invisible' : ''}>{legality.Vintage}</span></p>
         </div>
       )}
     </div>

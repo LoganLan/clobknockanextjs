@@ -16,6 +16,11 @@ interface CardData {
   mana_cost: string;
   type_line: string;
   oracle_text: string;
+  prices: {
+    usd: string | null;
+    usd_foil: string | null;
+    eur: string | null;
+  };
 }
 
 interface Deck {
@@ -168,8 +173,7 @@ const DeckBuilderPage: React.FC = () => {
   return (
     <div className=" p-8">
 
-<Heading />
-
+      <Heading />
 
       <h1 className="text-3xl font-bold mb-4">Deck Builder</h1>
       
@@ -185,7 +189,7 @@ const DeckBuilderPage: React.FC = () => {
         <Button label="Create Deck" onClick={handleCreateDeck} />
       </div>
       <Link href="/decks" className="text-lg text-White_Colors-platinum bg-Green_Colors-India_Green hover:text-Blue_Colors-Cornflower_Blue hover:bg-White_Colors-Jet px-2 py-1 rounded-md">
-              Decks
+        Decks
       </Link>
 
       {/* Display the list of decks */}
@@ -214,20 +218,19 @@ const DeckBuilderPage: React.FC = () => {
       {/* Display selected card and option to add to a deck */}
       {selectedCard && (
         <div>
-        <h2 className='text-White_Colors-platinum'>Add `{selectedCard.name}` to a Deck</h2>
-        <select 
-          onChange={(e) => setSelectedDeckId(Number(e.target.value))} 
-          value={selectedDeckId || ''} 
-          className='text-White_Colors-outer-space'
-        >
-          <option value="" className='text-White_Colors-outer-space'>Select Deck</option>
-          {decks.map(deck => (
-            <option key={deck.deck_id} value={deck.deck_id} className='text-White_Colors-outer-space'>{deck.deck_name}</option>
-          ))}
-        </select>
-        <button onClick={handleAddCardToDeck}>Add to Deck</button>
-      </div>
-      
+          <h2 className='text-White_Colors-platinum'>Add `{selectedCard.name}` to a Deck</h2>
+          <select 
+            onChange={(e) => setSelectedDeckId(Number(e.target.value))} 
+            value={selectedDeckId || ''} 
+            className='text-White_Colors-outer-space'
+          >
+            <option value="" className='text-White_Colors-outer-space'>Select Deck</option>
+            {decks.map(deck => (
+              <option key={deck.deck_id} value={deck.deck_id} className='text-White_Colors-outer-space'>{deck.deck_name}</option>
+            ))}
+          </select>
+          <button onClick={handleAddCardToDeck}>Add to Deck</button>
+        </div>
       )}
 
       {/* Display cards */}
@@ -235,63 +238,30 @@ const DeckBuilderPage: React.FC = () => {
         <p>Loading cards...</p>
       ) : (
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2 mt-8 text-White_Colors-anti-flash-white">
-          {Array.isArray(cards) && cards.length > 0 ? (
-            cards.map(card => (
-              <div
-                key={card.id}
-                className="flex justify-center cursor-pointer"
-                onClick={() => handleCardSelect(card)} // Set the selected card when clicked
-              >
-                <Card
-                  title={card.name}
-                  description={card.oracle_text}
-                  imageUrl={card.image_uris?.normal}
-                />
-              </div>
-            ))
-          ) : (
-            <p>No cards found.</p>
+  {Array.isArray(cards) && cards.length > 0 ? (
+    cards.map(card => (
+      <div
+        key={card.id}
+        className="flex justify-center cursor-pointer"
+        onClick={() => handleCardSelect(card)} // Set the selected card when clicked
+      >
+        <Card
+          title={card.name}
+          description={card.oracle_text}
+          imageUrl={card.image_uris?.normal}
+          price={card.prices?.usd ? `$${card.prices.usd}` : "Price N/A"} // Pass the price
+        />
+      </div>
+    ))
+  ) : (
+    <p>No cards found.</p>
+  )}
+</div>
 
 
-
-            
-            
-          )}
-
-             
-{/* Footer */}
-<Footer />
-
-
-{/* Custom animation */}
-<style jsx>{`
-  @keyframes rainbow {
-    0% { color: #ffffff; } /* White */
-    12.5% { color: #6e9aff; } /* Cornflower_Blue */
-    25% { color: #989898; } /* battleship-grey */
-    37.5% { color: #ed1515; } /* Red(CMYK) */
-    50% { color: #22ff1f; } /* Green */
-    62.5% { color: #dcdcdc; } /* platinum */
-    75% { color: #1f40ff; } /* Palatinate_Blue */
-    87.5% { color: #525252; } /* Davys-Gray */
-    90% { color: #c80d0d; } /* Engineering_Orange */
-    100% { color: #008b06; } /* India_Green */
-  }
-
-  /* Apply hover and transition effect */
-  .hover-rainbow {
-    display: inline-block; /* Ensure the element behaves like a button/link */
-    transition: color 0.5s ease-in-out; /* Smooth transition for color change */
-  }
-
-  .hover-rainbow:hover {
-    animation: rainbow 5s linear infinite; /* Smooth color cycling */
-  }
-`}</style>
-
-
-        </div>
       )}
+
+      <Footer />
     </div>
   );
 };
