@@ -11,10 +11,12 @@ interface CardProps {
 
 const Card: React.FC<CardProps> = ({ title, description, imageUrl, price, className }) => {
   const [legality, setLegality] = useState<{ [format: string]: string }>({});
+  const [artist, setArtist] = useState<string>(''); // State to store artist name
+  const [type, setType] = useState<string>(''); // State to store card type
   const [loading, setLoading] = useState<boolean>(true);
   const [showLegality, setShowLegality] = useState<boolean>(false); // Default to showing description
 
-  // Fetch card legality from Scryfall API
+  // Fetch card data from Scryfall API
   useEffect(() => {
     const fetchCardData = async () => {
       setLoading(true);
@@ -22,6 +24,8 @@ const Card: React.FC<CardProps> = ({ title, description, imageUrl, price, classN
         const response = await fetch(`https://api.scryfall.com/cards/named?fuzzy=${title}`);
         const data = await response.json();
         setLegality(data.legalities || {});
+        setArtist(data.artist || 'Unknown'); // Set the artist name
+        setType(data.type_line || 'Unknown'); // Set the card type
       } catch (error) {
         console.error('Error fetching card data:', error);
       } finally {
@@ -71,6 +75,12 @@ const Card: React.FC<CardProps> = ({ title, description, imageUrl, price, classN
             <p className="text-sm text-center">{description}</p>
           </div>
         )}
+        
+        {/* Display artist and card type in the hover */}
+        <div className="mt-4 text-sm">
+          {artist && <p>Artist: {artist}</p>}
+          {type && <p>Type: {type}</p>}
+        </div>
       </div>
     </div>
   );
