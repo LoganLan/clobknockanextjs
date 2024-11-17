@@ -19,3 +19,16 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* Grid for displaying cards */
+.card-grid {
+  @apply grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 mt-8; /* Increase gap between cards */
+}
+
+.card-container {
+  @apply flex justify-center cursor-pointer bg-gray-900 border border-gray-800 rounded-lg shadow-lg p-2;
+}
+
+.card-details {
+  @apply text-center mt-2 text-sm text-white;
+}
