@@ -6,7 +6,8 @@ import Card from './components/Card';
 import Link from 'next/link';
 import Heading from "@/app/components/Heading";
 import Footer from "@/app/components/Footer";
-
+import { ScryfallCard } from "@scryfall/api-types";
+import { IScrytextProps, Scrycard } from 'react-scrycards';
 interface CardData {
   id: string;
   name: string;
@@ -29,6 +30,7 @@ interface Deck {
 }
 
 const DeckBuilderPage: React.FC = () => {
+  const test: ScryfallCard.Any[] = []
   const [cards, setCards] = useState<CardData[]>([]); // Store fetched cards
   const [loading, setLoading] = useState(false); // For loading state
   const [searchQuery, setSearchQuery] = useState(""); // For search query input
@@ -71,13 +73,13 @@ const DeckBuilderPage: React.FC = () => {
     try {
       const user_id = 1; // Replace this with the actual user ID from your session
       const response = await fetch(`/api/decks?user_id=${user_id}`);
-      
+
       if (!response.ok) {
         console.error("Response not OK:", response.status, response.statusText);
         setDecks([]);
         return;
       }
-      
+
       const data = await response.json();
       if (data && Array.isArray(data.decks)) {
         setDecks(data.decks);
@@ -188,9 +190,9 @@ const DeckBuilderPage: React.FC = () => {
   return (
     <div className="p-8">
       <Heading />
-  
+
       <h1 className="text-3xl font-bold mb-4">Deck Builder</h1>
-  
+
       {/* Deck name input */}
       <div className="mb-4">
         <input
@@ -202,14 +204,14 @@ const DeckBuilderPage: React.FC = () => {
         />
         <Button label="Create Deck" onClick={handleCreateDeck} />
       </div>
-  
+
       <Link
         href="/decks"
         className="text-lg text-White_Colors-platinum bg-Green_Colors-India_Green hover:text-Blue_Colors-Cornflower_Blue hover:bg-White_Colors-Jet px-2 py-1 rounded-md"
       >
         Decks
       </Link>
-  
+
       {/* Display the list of decks */}
       <div className="mt-8">
         <h2 className="text-2xl font-semibold">Your Decks</h2>
@@ -223,7 +225,7 @@ const DeckBuilderPage: React.FC = () => {
           )}
         </ul>
       </div>
-  
+
       {/* Filter selection */}
       <div className="mb-4">
         <label className="block mb-2 font-semibold text-lg">Search by:</label>
@@ -236,7 +238,7 @@ const DeckBuilderPage: React.FC = () => {
           <option value="artist">Artist</option>
           <option value="type">Type</option>
         </select>
-  
+
         <input
           type="text"
           value={searchQuery}
@@ -245,7 +247,7 @@ const DeckBuilderPage: React.FC = () => {
           className="border border-gray-300 rounded-lg p-2 w-full mb-4 text-black"
         />
       </div>
-  
+
       {/* Display selected card and option to add to a deck */}
       {selectedCard && (
         <div>
@@ -265,7 +267,7 @@ const DeckBuilderPage: React.FC = () => {
           <button onClick={handleAddCardToDeck}>Add to Deck</button>
         </div>
       )}
-  
+
       {/* Display cards */}
       {loading ? (
         <p>Loading cards...</p>
@@ -278,12 +280,20 @@ const DeckBuilderPage: React.FC = () => {
                 className="flex justify-center cursor-pointer"
                 onClick={() => handleCardSelect(card)}
               >
-                <Card
+                <Scrycard card={card as any} 
+                size={"lg"} 
+                animated 
+                flippable  
+                symbol_text_renderer={function (props: IScrytextProps): React.ReactNode {
+                  return null;
+                }} />
+
+                {/* <Card
                   title={card.name}
                   description={card.oracle_text}
                   imageUrl={card.image_uris?.normal}
                   price={card.prices?.usd ? `$${card.prices.usd}` : "Price N/A"}
-                />
+                /> */}
               </div>
             ))
           ) : (
@@ -291,11 +301,11 @@ const DeckBuilderPage: React.FC = () => {
           )}
         </div>
       )}
-  
+
       <Footer />
     </div>
   );
-  
+
 };
 
 export default DeckBuilderPage;
