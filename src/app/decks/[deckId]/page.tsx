@@ -4,49 +4,35 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Heading from "@/app/components/Heading";
 import Footer from "@/app/components/Footer";
-import Image from 'next/image';
+import Card from "@/app/deck-builder/components/Card";
 
-interface Card {
+interface CardData {
   card_id: string;
   name: string;
   image_url: string;
   quantity: number;
+  description: string;
+  artist: string;
+  type: string;
+  legality: string; // Add legality
 }
 
 interface Deck {
   deck_id: number;
   deck_name: string;
   deck_type: string;
-  deck_color: string; // Added color field to deck
+  deck_color: string;
 }
 
 interface DeckPageProps {
   params: Promise<{ deckId: string }>;
 }
 
-const deckTypes = [
-  "Alchemy", "Brawl", "Booster Draft", "Canadian Highlander", "Commander (EDH)", "Constructed", "Cube Draft",
-  "Duel Commander", "Extended", "Explorer", "Frontier", "Historic", "Historic Brawl", "Legacy", "Limited",
-  "Modern", "Oath-breaker", "Pauper", "Pauper Commander", "Pioneer", "Premodern", "Sealed Deck", "Singleton",
-  "Standard", "Tiny Leaders", "Two-Headed Giant", "Vintage"
-];
-
-const colorTypes = [
-  "White (W)", "Blue (U)", "Black (B)", "Red (R)", "Green (G)",
-  "Azorius(WU)", "Boros(WR)", "Orzhov(WB)", "Dimir(UB)", "Golgari(BG)", "Selesnya(GW)", "Gruul(GR)", "Izzet(UR)", 
-  "Rakdos(BR)", "Simic(UG)", "Bant(WUG)", "Esper(WUB)", "Grixis(UBR)", "Jund(RBG)", "Naya(WRG)", "Mardu(RWB)", 
-  "Temur(UGR)", "Abzan(BWG)", "Jeskai(RWU)", "Sultai(BGU)", "Chaos(UBRG)", "Dune(WBRG)", "Witch(WUBG)", 
-  "Yore(WUBR)", "Altruism(WBGR)"
-];
-
 const DeckPage: React.FC<DeckPageProps> = ({ params }) => {
   const [deckId, setDeckId] = useState<string | null>(null);
   const [deck, setDeck] = useState<Deck | null>(null);
-  const [cards, setCards] = useState<Card[]>([]);
+  const [cards, setCards] = useState<CardData[]>([]);
   const [loading, setLoading] = useState(true);
-  const [selectedType, setSelectedType] = useState<string>('Commander');
-  const [selectedColor, setSelectedColor] = useState<string>('White');
-  const [activeTab, setActiveTab] = useState<'type' | 'color'>('type');
   const [searchQuery, setSearchQuery] = useState<string>(''); // Search state
 
   useEffect(() => {
@@ -81,18 +67,6 @@ const DeckPage: React.FC<DeckPageProps> = ({ params }) => {
     }
   }, [deckId]);
 
-  const handleTypeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedType(event.target.value);
-  };
-
-  const handleColorChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedColor(event.target.value);
-  };
-
-  const handleTabSwitch = (tab: 'type' | 'color') => {
-    setActiveTab(tab);
-  };
-
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(event.target.value.toLowerCase());
   };
@@ -101,15 +75,12 @@ const DeckPage: React.FC<DeckPageProps> = ({ params }) => {
     card.name.toLowerCase().includes(searchQuery)
   );
 
-  if (loading) return <p>Loading deck...</p>;
-  if (!deck) return <p>Deck not found.</p>;
-
   const handleDeleteCard = async (cardId: string) => {
     if (!deckId) return;
-  
+
     try {
       const response = await fetch(`/api/decks/${deckId}?cardId=${cardId}`, { method: 'DELETE' });
-  
+
       if (response.ok) {
         setCards((prevCards) => prevCards.filter((card) => card.card_id !== cardId)); // Update state
       } else {
@@ -120,125 +91,66 @@ const DeckPage: React.FC<DeckPageProps> = ({ params }) => {
       console.error('Error deleting card:', error);
     }
   };
-  
+
+  if (loading) return <p>Loading deck...</p>;
+  if (!deck) return <p>Deck not found.</p>;
 
   return (
     <div>
-      {/* Header component */}
-        <Heading />
-
-      <Link href="/decks" className="text-lg text-White_Colors-platinum bg-Green_Colors-India_Green hover:text-Blue_Colors-Cornflower_Blue hover:bg-White_Colors-Jet px-2 py-1 rounded-md">
+      <Heading />
+      <Link
+        href="/decks"
+        className="text-lg text-white bg-green-500 hover:text-blue-500 hover:bg-gray-800 px-2 py-1 rounded-md"
+      >
         Decks
       </Link>
 
-      <h1 className="text-3xl font-bold">{deck.deck_name}</h1>
+      <h1 className="text-3xl font-bold mt-4">{deck.deck_name}</h1>
 
-      {/* Tab Navigation */}
+      {/* Search bar */}
       <div className="mt-4">
-        <button
-          onClick={() => handleTabSwitch('type')}
-          className={`mr-4 p-2 ${activeTab === 'type' ? 'text-white bg-blue-600' : 'text-gray-300'}`}
-        >
-          Deck Type
-        </button>
-        <button
-          onClick={() => handleTabSwitch('color')}
-          className={`p-2 ${activeTab === 'color' ? 'text-white bg-blue-600' : 'text-gray-300'}`}
-        >
-          Color Combinations
-        </button>
-      </div>
-
-      {/* Tab Content */}
-      {activeTab === 'type' ? (
-        <div className="mt-4">
-          <label htmlFor="deck-type" className="mr-2 text-White_Colors-platinum">Select Deck Type:</label>
-          <select
-            id="deck-type"
-            value={selectedType}
-            onChange={handleTypeChange}
-            className="border rounded px-3 py-2 text-White_Colors-Onyx bg-white"
-          >
-            {deckTypes.map((type) => (
-              <option key={type} value={type}>
-                {type}
-              </option>
-            ))}
-          </select>
-        </div>
-      ) : (
-        <div className="mt-4">
-          <label htmlFor="deck-color" className="mr-2 text-White_Colors-platinum">Select Deck Color:</label>
-          <select
-            id="deck-color"
-            value={selectedColor}
-            onChange={handleColorChange}
-            className="border rounded px-3 py-2 text-White_Colors-Onyx bg-white"
-          >
-            {colorTypes.map((color) => (
-              <option key={color} value={color}>
-                {color}
-              </option>
-            ))}
-          </select>
-        </div>
-      )}
-
-      {/* Search bar for filtering cards */}
-      <div className="mt-4">
-        <label htmlFor="search" className="text-White_Colors-platinum">Search Cards:</label>
+        <label htmlFor="search" className="text-white">Search Cards:</label>
         <input
           id="search"
           type="text"
           value={searchQuery}
           onChange={handleSearchChange}
           placeholder="Search for a card..."
-          className="border rounded px-3 py-2 ml-2 text-White_Colors-Onyx bg-white"
+          className="border rounded px-3 py-2 ml-2 text-gray-800 bg-white"
         />
       </div>
 
-      {/* Display each card */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+      {/* Display cards */}
+      <div className="card-grid">
         {filteredCards.length === 0 ? (
           <p>No cards match your search.</p>
         ) : (
           filteredCards.map((card) => (
-<div key={card.card_id} className="border p-4 rounded-lg">
-  <Image
-    src={card.image_url}
-    alt={card.name}
-    width={488}
-    height={680}
-    className="w-full h-auto mb-2"
-    onError={(e) => (e.currentTarget.src = '/default-image.jpg')}
-  />
-  <h3 className="text-lg font-semibold">{card.name}</h3>
-  <p className="text-sm">Quantity: {card.quantity}</p>
-  <button
-    onClick={() => handleDeleteCard(card.card_id)}
-    className="mt-2 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
-  >
-    Delete
-  </button>
-</div>
-
+            <div key={card.card_id} className="card-container">
+              <div className="flex flex-col items-center">
+                <Card
+                  title={card.name}
+                  imageUrl={card.image_url}
+                  description={card.description}
+                  className="mb-1"  // Added margin to create space between image and details
+                />
+                <div className="card-details">
+                  <p className="text-sm text-white">Quantity: {card.quantity}</p>
+                  <button
+                    onClick={() => handleDeleteCard(card.card_id)}
+                    className="mt-1 px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
+            </div>
           ))
         )}
       </div>
-
-      {/* Display Deck Type and Color */}
-      <div className="mt-6">
-        <h3 className="text-xl font-semibold">Deck Type & Color</h3>
-        <p>Type: {deck.deck_type}</p>
-        <p>Color: {deck.deck_color}</p>
-      </div>
-
       <Footer />
-
     </div>
   );
 };
 
 export default DeckPage;
-
-// test

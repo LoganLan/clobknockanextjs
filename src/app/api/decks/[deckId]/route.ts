@@ -20,13 +20,18 @@ export async function GET(req: NextRequest, context: { params: { deckId: string 
     const cardDetails = await Promise.all(cardResults.rows.map(async (row: DeckCardRow) => {
       const cardResponse = await fetch(`https://api.scryfall.com/cards/${row.card_id}`);
       const cardData = await cardResponse.json();
+    
       return {
         card_id: row.card_id,
         name: cardData.name,
         image_url: cardData.image_uris?.normal,
+        description: cardData.oracle_text, // Include description
+        artist: cardData.artist, // Include artist
+        type: cardData.type_line, // Include card type
         quantity: row.quantity
       };
     }));
+    
 
     const deck = deckResult.rows[0];
     return NextResponse.json({ deck, cards: cardDetails }, { status: 200 });
@@ -35,6 +40,7 @@ export async function GET(req: NextRequest, context: { params: { deckId: string 
     return NextResponse.json({ error: 'Error fetching deck' }, { status: 500 });
   }
 }
+
 
 export async function DELETE(req: NextRequest, context: { params: { deckId: string } }) {
   // Await `params`
