@@ -2,18 +2,23 @@
 
 import React, { useEffect, useState } from 'react';
 import Button from './components/Button';
-import Card from './components/Card';
 import Link from 'next/link';
 import Heading from "@/app/components/Heading";
 import Footer from "@/app/components/Footer";
 import { ScryfallCard } from "@scryfall/api-types";
 import { IScrytextProps, Scrycard } from 'react-scrycards';
+
 interface CardData {
   id: string;
   name: string;
   image_uris: {
     normal: string;
   };
+  card_faces?: {
+    image_uris: {
+      normal: string;
+    };
+  }[]; // Added card_faces for dual-face card support
   mana_cost: string;
   type_line: string;
   oracle_text: string;
@@ -30,17 +35,16 @@ interface Deck {
 }
 
 const DeckBuilderPage: React.FC = () => {
-  const test: ScryfallCard.Any[] = []
   const [cards, setCards] = useState<CardData[]>([]); // Store fetched cards
   const [loading, setLoading] = useState(false); // For loading state
   const [searchQuery, setSearchQuery] = useState(""); // For search query input
-  const [searchFilter, setSearchFilter] = useState<"name" | "artist" | "type">("name"); // Add filter state
+  const [searchFilter, setSearchFilter] = useState<"name" | "artist" | "type" | "mana_cost">("name"); // Add "mana_cost" to filter state
   const [deckName, setDeckName] = useState(""); // For deck name input
   const [decks, setDecks] = useState<Deck[]>([]); // Store the list of decks
   const [selectedCard, setSelectedCard] = useState<CardData | null>(null);
   const [selectedDeckId, setSelectedDeckId] = useState<number | null>(null);
 
-  const fetchCards = async (query: string, filter: "name" | "artist" | "type") => {
+  const fetchCards = async (query: string, filter: "name" | "artist" | "type" | "mana_cost") => {
     setLoading(true);
     try {
       let filterQuery = "";
@@ -54,6 +58,9 @@ const DeckBuilderPage: React.FC = () => {
         case "type":
           filterQuery = `type:${query}`;
           break;
+        case "mana_cost": // Add the mana cost case
+          filterQuery = `mana:${query}`;
+          break;
         default:
           filterQuery = query; // Default to general search
       }
@@ -66,7 +73,6 @@ const DeckBuilderPage: React.FC = () => {
     }
     setLoading(false);
   };
-
 
   // Fetch decks from the server
   const fetchDecks = async () => {
@@ -187,6 +193,14 @@ const DeckBuilderPage: React.FC = () => {
     setSelectedCard(card); // Set the selected card when a card is clicked
   };
 
+  // Function to safely get card image uri
+  const getCardImage = (card: CardData) => {
+    if (card.card_faces && card.card_faces[0]?.image_uris?.normal) {
+      return card.card_faces[0].image_uris.normal; // Dual-face card, first face
+    }
+    return card.image_uris?.normal || ''; // Single face or no image
+  };
+
   return (
     <div className="p-8">
       <Heading />
@@ -231,12 +245,13 @@ const DeckBuilderPage: React.FC = () => {
         <label className="block mb-2 font-semibold text-lg">Search by:</label>
         <select
           value={searchFilter}
-          onChange={(e) => setSearchFilter(e.target.value as "name" | "artist" | "type")}
+          onChange={(e) => setSearchFilter(e.target.value as "name" | "artist" | "type" | "mana_cost")}
           className="border border-gray-300 rounded-lg p-2 w-full mb-4 text-black"
         >
           <option value="name">Name</option>
           <option value="artist">Artist</option>
           <option value="type">Type</option>
+          <option value="mana_cost">Mana Cost</option>
         </select>
 
         <input

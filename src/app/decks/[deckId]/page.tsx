@@ -1,4 +1,4 @@
-'use client';
+'use client';  // Mark the component as client-side
 
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
@@ -14,7 +14,8 @@ interface CardData {
   description: string;
   artist: string;
   type: string;
-  legality: string; // Add legality
+  legality: string;
+  price: string;  // New field for card price
 }
 
 interface Deck {
@@ -52,7 +53,14 @@ const DeckPage: React.FC<DeckPageProps> = ({ params }) => {
           const data = await response.json();
           if (response.ok) {
             setDeck(data.deck);
-            setCards(data.cards); // Assuming the API response has a 'cards' property
+            const cardsWithPrices = await Promise.all(data.cards.map(async (card: CardData) => {
+              // Fetch price for each card from an API (e.g., Scryfall)
+              const priceResponse = await fetch(`https://api.scryfall.com/cards/named?exact=${card.name}`);
+              const priceData = await priceResponse.json();
+              const price = priceData?.prices?.usd || 'Price not available'; // Default value if no price is found
+              return { ...card, price };  // Add price to each card
+            }));
+            setCards(cardsWithPrices); // Set the cards with prices
           } else {
             console.error('Error fetching deck:', data.error);
           }
@@ -120,8 +128,8 @@ const DeckPage: React.FC<DeckPageProps> = ({ params }) => {
         />
       </div>
 
-      {/* Display cards */}
-      <div className="card-grid">
+      {/* Display cards in a two-column layout */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-4 mt-4">
         {filteredCards.length === 0 ? (
           <p>No cards match your search.</p>
         ) : (
@@ -136,6 +144,7 @@ const DeckPage: React.FC<DeckPageProps> = ({ params }) => {
                 />
                 <div className="card-details">
                   <p className="text-sm text-white">Quantity: {card.quantity}</p>
+                  <p className="text-sm text-white">Price: ${card.price}</p> {/* Display price */}
                   <button
                     onClick={() => handleDeleteCard(card.card_id)}
                     className="mt-1 px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700"
@@ -148,6 +157,7 @@ const DeckPage: React.FC<DeckPageProps> = ({ params }) => {
           ))
         )}
       </div>
+
       <Footer />
     </div>
   );
