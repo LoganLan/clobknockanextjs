@@ -111,9 +111,87 @@ const DeckBuilderPage: React.FC = () => {
     fetchDecks(); // Fetch the list of decks
   }, []);
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>, setFilter: React.Dispatch<React.SetStateAction<string>>) => {
-    setFilter(event.target.value);
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(event.target.value);
   };
+
+  const handleDeckNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setDeckName(event.target.value);
+  };
+
+  const handleCreateDeck = async () => {
+    if (!deckName.trim()) {
+      alert("Please provide a valid deck name.");
+      return;
+    }
+
+    const user_id = 1; // Replace this with actual user ID retrieved from session
+
+    const deckPayload = {
+      user_id,
+      deck_name: deckName,
+    };
+
+    try {
+      const response = await fetch('/api/decks', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(deckPayload),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        alert(`Failed to create deck: ${errorData.error || 'Unknown error'}`);
+        return;
+      }
+
+      const data = await response.json();
+      if (data.deck) {
+        setDeckName(""); // Clear the deck name input field
+        fetchDecks(); // Fetch the updated list of decks
+        alert("Deck created successfully!");
+      } else {
+        alert("Failed to create deck.");
+      }
+    } catch (error) {
+      console.error("Error creating deck:", error);
+      alert("Error creating deck.");
+    }
+  };
+
+  const handleAddCardToDeck = async () => {
+    if (!selectedDeckId || !selectedCard) return;
+
+    try {
+      const response = await fetch('/api/decks/addCard', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ deck_id: selectedDeckId, card_id: selectedCard.id, quantity: 1 }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        alert(`Failed to add card: ${errorData.error || 'Unknown error'}`);
+        return;
+      }
+
+      alert("Card added successfully!");
+    } catch (error) {
+      console.error("Error adding card to deck:", error);
+      alert("Error adding card to deck.");
+    }
+  };
+
+  const handleCardSelect = (card: CardData) => {
+    setSelectedCard((prevSelectedCard) =>
+      prevSelectedCard && prevSelectedCard.id === card.id ? null : card
+    );
+  };
+  
 
   return (
     <div className="p-8">
@@ -191,9 +269,27 @@ const DeckBuilderPage: React.FC = () => {
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2 mt-8 text-White_Colors-anti-flash-white">
           {Array.isArray(cards) && cards.length > 0 ? (
             cards.map((card) => (
-              <div key={card.id} className="flex justify-center cursor-pointer" onClick={() => setSelectedCard(card)}>
-                <Scrycard card={card as any} size={"lg"} animated flippable />
+              <div
+                key={card.id}
+                className="flex justify-center cursor-pointer"
+                onClick={() => handleCardSelect(card)}
+              >
+                <Scrycard card={card as any} 
+                size={"lg"} 
+                animated 
+                flippable  
+                symbol_text_renderer={function (props: IScrytextProps): React.ReactNode {
+                  return null;
+                }} />
+
+                {/* <Card
+                  title={card.name}
+                  description={card.oracle_text}
+                  imageUrl={card.image_uris?.normal}
+                  price={card.prices?.usd ? `$${card.prices.usd}` : "Price N/A"}
+                /> */}
               </div>
+
             ))
           ) : (
             <p>No cards found.</p>
