@@ -2,18 +2,23 @@
 
 import React, { useEffect, useState } from 'react';
 import Button from './components/Button';
-import Card from './components/Card';
 import Link from 'next/link';
 import Heading from "@/app/components/Heading";
 import Footer from "@/app/components/Footer";
 import { ScryfallCard } from "@scryfall/api-types";
 import { IScrytextProps, Scrycard } from 'react-scrycards';
+
 interface CardData {
   id: string;
   name: string;
   image_uris: {
     normal: string;
   };
+  card_faces?: {
+    image_uris: {
+      normal: string;
+    };
+  }[]; // Added card_faces for dual-face card support
   mana_cost: string;
   type_line: string;
   oracle_text: string;
@@ -30,35 +35,34 @@ interface Deck {
 }
 
 const DeckBuilderPage: React.FC = () => {
-  const test: ScryfallCard.Any[] = []
   const [cards, setCards] = useState<CardData[]>([]); // Store fetched cards
   const [loading, setLoading] = useState(false); // For loading state
-  const [searchQuery, setSearchQuery] = useState(""); // For search query input
-  const [searchFilter, setSearchFilter] = useState<"name" | "artist" | "type">("name"); // Add filter state
+
+  // Separate states for each filter
+  const [nameFilter, setNameFilter] = useState(""); 
+  const [artistFilter, setArtistFilter] = useState(""); 
+  const [typeFilter, setTypeFilter] = useState("");
+  const [manaCostFilter, setManaCostFilter] = useState("");
+
   const [deckName, setDeckName] = useState(""); // For deck name input
   const [decks, setDecks] = useState<Deck[]>([]); // Store the list of decks
   const [selectedCard, setSelectedCard] = useState<CardData | null>(null);
   const [selectedDeckId, setSelectedDeckId] = useState<number | null>(null);
 
-  const fetchCards = async (query: string, filter: "name" | "artist" | "type") => {
+  // Combine the filters to create a query string
+  const fetchCards = async () => {
     setLoading(true);
     try {
-      let filterQuery = "";
-      switch (filter) {
-        case "name":
-          filterQuery = `name:${query}`;
-          break;
-        case "artist":
-          filterQuery = `artist:${query}`;
-          break;
-        case "type":
-          filterQuery = `type:${query}`;
-          break;
-        default:
-          filterQuery = query; // Default to general search
-      }
+      // Build the query by combining the filters if they are provided
+      let query = "";
+      if (nameFilter) query += `name:${nameFilter}`;
+      if (artistFilter) query += query ? `+artist:${artistFilter}` : `artist:${artistFilter}`;
+      if (typeFilter) query += query ? `+type:${typeFilter}` : `type:${typeFilter}`;
+      if (manaCostFilter) query += query ? `+mana:${manaCostFilter}` : `mana:${manaCostFilter}`;
 
-      const response = await fetch(`https://api.scryfall.com/cards/search?q=${filterQuery}&order=name&page=1&unique=cards`);
+      if (!query) return; // No query means no fetch
+
+      const response = await fetch(`https://api.scryfall.com/cards/search?q=${query}&order=name&page=1&unique=cards`);
       const data = await response.json();
       setCards(data.data || []);
     } catch (error) {
@@ -66,7 +70,6 @@ const DeckBuilderPage: React.FC = () => {
     }
     setLoading(false);
   };
-
 
   // Fetch decks from the server
   const fetchDecks = async () => {
@@ -94,26 +97,26 @@ const DeckBuilderPage: React.FC = () => {
   };
 
   useEffect(() => {
-    if (!searchQuery) return;
+    if (!nameFilter && !artistFilter && !typeFilter && !manaCostFilter) return;
 
     const delayDebounce = setTimeout(() => {
-      fetchCards(searchQuery, searchFilter);
+      fetchCards();
     }, 300);
 
     return () => clearTimeout(delayDebounce);
-  }, [searchQuery, searchFilter]);
+  }, [nameFilter, artistFilter, typeFilter, manaCostFilter]);
 
   // Fetch decks when the page loads
   useEffect(() => {
     fetchDecks(); // Fetch the list of decks
   }, []);
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchQuery(event.target.value);
-  };
-
-  const handleDeckNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setDeckName(event.target.value);
+  // Handle input changes and update respective state
+  const handleInputChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    setFilter: React.Dispatch<React.SetStateAction<string>>
+  ) => {
+    setFilter(event.target.value);
   };
 
   const handleCreateDeck = async () => {
@@ -188,7 +191,11 @@ const DeckBuilderPage: React.FC = () => {
       prevSelectedCard && prevSelectedCard.id === card.id ? null : card
     );
   };
-  
+
+  // Add the missing handleDeckNameChange function
+  const handleDeckNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setDeckName(event.target.value);
+  };
 
   return (
     <div className="p-8">
@@ -215,101 +222,94 @@ const DeckBuilderPage: React.FC = () => {
         Decks
       </Link>
 
-      {/* Display the list of decks */}
-      <div className="mt-8">
-        <h2 className="text-2xl font-semibold">Your Decks</h2>
-        <ul>
-          {decks.length > 0 ? (
-            decks.map((deck) => (
-              <li key={deck.deck_id} className="mt-2">{deck.deck_name}</li>
-            ))
-          ) : (
-            <p>No decks found.</p>
-          )}
-        </ul>
-      </div>
-
-      {/* Filter selection */}
-      <div className="mb-4">
-        <label className="block mb-2 font-semibold text-lg">Search by:</label>
-        <select
-          value={searchFilter}
-          onChange={(e) => setSearchFilter(e.target.value as "name" | "artist" | "type")}
-          className="border border-gray-300 rounded-lg p-2 w-full mb-4 text-black"
-        >
-          <option value="name">Name</option>
-          <option value="artist">Artist</option>
-          <option value="type">Type</option>
-        </select>
-
-        <input
-          type="text"
-          value={searchQuery}
-          onChange={handleInputChange}
-          placeholder={`Search by ${searchFilter}`}
-          className="border border-gray-300 rounded-lg p-2 w-full mb-4 text-black"
-        />
-      </div>
-
-      {/* Display selected card and option to add to a deck */}
-      {selectedCard && (
+      {/* Filter inputs for Name, Artist, Type, Mana Cost */}
+      <div className="mt-8 grid grid-cols-1 sm:grid-cols-4 gap-2">
         <div>
-          <h2 className="text-White_Colors-platinum">Add `{selectedCard.name}` to a Deck</h2>
-          <select
-            onChange={(e) => setSelectedDeckId(Number(e.target.value))}
-            value={selectedDeckId || ''}
-            className="text-White_Colors-outer-space"
-          >
-            <option value="" className="text-White_Colors-outer-space">Select Deck</option>
-            {decks.map((deck) => (
-              <option key={deck.deck_id} value={deck.deck_id} className="text-White_Colors-outer-space">
-                {deck.deck_name}
-              </option>
-            ))}
-          </select>
-          <button onClick={handleAddCardToDeck}>Add to Deck</button>
+          <label className="block font-semibold text-sm">Name:</label>
+          <input
+            type="text"
+            value={nameFilter}
+            onChange={(e) => handleInputChange(e, setNameFilter)}
+            placeholder="Search by Name"
+            className="border border-gray-300 rounded-lg p-2 w-full text-black"
+          />
         </div>
-      )}
-
-      {/* Display cards */}
-      {loading ? (
-        <p>Loading cards...</p>
-      ) : (
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2 mt-8 text-White_Colors-anti-flash-white">
-          {Array.isArray(cards) && cards.length > 0 ? (
-            cards.map((card) => (
-              <div key={card.id} className="relative flex justify-center">
-                {/* Selection Circle */}
-                <input
-                  type="checkbox"
-                  checked={selectedCard?.id === card.id}
-                  onChange={(e) => handleCardSelect(card)}
-                  className="absolute top-2 left-2 w-5 h-5 cursor-pointer z-10"
-                />
-
-                {/* Card */}
-                <Scrycard
-                  card={card as any}
-                  size={"lg"}
-                  animated
-                  flippable
-                  symbol_text_renderer={function (props: IScrytextProps): React.ReactNode {
-                    return null;
-                  }}
-                />
-              </div>
-
-            ))
-          ) : (
-            <p>No cards found.</p>
-          )}
+        <div>
+          <label className="block font-semibold text-sm">Artist:</label>
+          <input
+            type="text"
+            value={artistFilter}
+            onChange={(e) => handleInputChange(e, setArtistFilter)}
+            placeholder="Search by Artist"
+            className="border border-gray-300 rounded-lg p-2 w-full text-black"
+          />
         </div>
-      )}
+        <div>
+          <label className="block font-semibold text-sm">Type:</label>
+          <input
+            type="text"
+            value={typeFilter}
+            onChange={(e) => handleInputChange(e, setTypeFilter)}
+            placeholder="Search by Type"
+            className="border border-gray-300 rounded-lg p-2 w-full text-black"
+          />
+        </div>
+        <div>
+          <label className="block font-semibold text-sm">Mana Cost:</label>
+          <input
+            type="text"
+            value={manaCostFilter}
+            onChange={(e) => handleInputChange(e, setManaCostFilter)}
+            placeholder="Search by Mana Cost"
+            className="border border-gray-300 rounded-lg p-2 w-full text-black"
+          />
+        </div>
+      </div>
+
+      <div className="mt-6">
+        {loading ? (
+          <p>Loading...</p>
+        ) : (
+          <div>
+            <h2 className="text-xl font-semibold">Cards</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+              {cards.map((card) => (
+                <div key={card.id} className="card p-4 border rounded-md">
+                  <img
+                    src={
+                      card.image_uris
+                        ? card.image_uris.normal
+                        : card.card_faces
+                        ? card.card_faces[0].image_uris.normal
+                        : '/fallback-image.png'
+                    }
+                    alt={card.name}
+                    className="w-full h-64 object-contain mb-4"
+                  />
+                  <h3 className="text-xl font-semibold">{card.name}</h3>
+                  <p className="text-sm">{card.type_line}</p>
+                  <p className="text-sm">{card.oracle_text}</p>
+                  <p className="text-sm">Mana cost: {card.mana_cost}</p>
+                  <p className="text-sm">Price: ${card.prices.usd}</p>
+
+                  <button
+                    className="text-white bg-blue-500 hover:bg-blue-700 py-2 px-4 rounded mt-4"
+                    onClick={() => handleCardSelect(card)}
+                  >
+                    {selectedCard && selectedCard.id === card.id
+                      ? 'Deselect Card'
+                      : 'Select Card'}
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
 
       <Footer />
     </div>
   );
-
 };
 
 export default DeckBuilderPage;
