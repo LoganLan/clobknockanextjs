@@ -39,26 +39,42 @@ const DeckBuilderPage: React.FC = () => {
   const [decks, setDecks] = useState<Deck[]>([]); // Store the list of decks
   const [selectedCard, setSelectedCard] = useState<CardData | null>(null);
   const [selectedDeckId, setSelectedDeckId] = useState<number | null>(null);
+  const [searchQueries, setSearchQueries] = useState({
+    name: "",
+    type: "",
+    mana: "",
+    artist: "",
+  });
+  
 
-  const fetchCards = async (query: string, filter: "name" | "artist" | "type") => {
+  const fetchCards = async () => {
     setLoading(true);
     try {
-      let filterQuery = "";
-      switch (filter) {
-        case "name":
-          filterQuery = `name:${query}`;
-          break;
-        case "artist":
-          filterQuery = `artist:${query}`;
-          break;
-        case "type":
-          filterQuery = `type:${query}`;
-          break;
-        default:
-          filterQuery = query; // Default to general search
+      
+      const { name, type, mana, artist } = searchQueries;
+      
+      if (!name && !type && !mana && !artist) {
+        setCards([]); // Clear results if no queries are entered
+        return;
       }
-
-      const response = await fetch(`https://api.scryfall.com/cards/search?q=${filterQuery}&order=name&page=1&unique=cards`);
+  
+      // Build query components
+      const queries = [
+        name && `name:${name}`,
+        type && `type:${type}`,
+        mana && `mana:${mana.toUpperCase().replace(/[^0-9WUBRG]/g, "")}`, // Ensure proper mana syntax
+        artist && `artist:${artist}`,
+      ].filter(Boolean); // Remove empty filters
+  
+      const queryString = queries.join(" ");
+      if (!queryString) {
+        setCards([]); // If no filters are applied, clear results
+        setLoading(false);
+        return;
+      }
+  
+      // Fetch cards from Scryfall
+      const response = await fetch(`https://api.scryfall.com/cards/search?q=${queryString}&order=name&page=1&unique=cards`);
       const data = await response.json();
       setCards(data.data || []);
     } catch (error) {
@@ -66,6 +82,7 @@ const DeckBuilderPage: React.FC = () => {
     }
     setLoading(false);
   };
+  
 
 
   // Fetch decks from the server
@@ -94,14 +111,13 @@ const DeckBuilderPage: React.FC = () => {
   };
 
   useEffect(() => {
-    if (!searchQuery) return;
-
     const delayDebounce = setTimeout(() => {
-      fetchCards(searchQuery, searchFilter);
+      fetchCards();
     }, 300);
-
+  
     return () => clearTimeout(delayDebounce);
-  }, [searchQuery, searchFilter]);
+  }, [searchQueries]);
+  
 
   // Fetch decks when the page loads
   useEffect(() => {
@@ -231,25 +247,45 @@ const DeckBuilderPage: React.FC = () => {
 
       {/* Filter selection */}
       <div className="mb-4">
-        <label className="block mb-2 font-semibold text-lg">Search by:</label>
-        <select
-          value={searchFilter}
-          onChange={(e) => setSearchFilter(e.target.value as "name" | "artist" | "type")}
-          className="border border-gray-300 rounded-lg p-2 w-full mb-4 text-black"
-        >
-          <option value="name">Name</option>
-          <option value="artist">Artist</option>
-          <option value="type">Type</option>
-        </select>
-
+        <label className="block mb-2 font-semibold text-lg">Search by Name:</label>
         <input
           type="text"
-          value={searchQuery}
-          onChange={handleInputChange}
-          placeholder={`Search by ${searchFilter}`}
+          value={searchQueries.name}
+          onChange={(e) => setSearchQueries((prev) => ({ ...prev, name: e.target.value }))}
+          placeholder="Search by Name"
+          className="border border-gray-300 rounded-lg p-2 w-full mb-4 text-black"
+        />
+
+        <label className="block mb-2 font-semibold text-lg">Search by Type:</label>
+        <input
+          type="text"
+          value={searchQueries.type}
+          onChange={(e) => setSearchQueries((prev) => ({ ...prev, type: e.target.value }))}
+          placeholder="Search by Type"
+          className="border border-gray-300 rounded-lg p-2 w-full mb-4 text-black"
+        />
+
+        <label className="block mb-2 font-semibold text-lg">Search by Mana (e.g., 2WU):</label>
+        <input
+          type="text"
+          value={searchQueries.mana}
+          onChange={(e) =>
+            setSearchQueries((prev) => ({ ...prev, mana: e.target.value.toUpperCase().replace(/[^0-9WUBRG]/g, "") }))
+          }
+          placeholder="Search by Mana"
+          className="border border-gray-300 rounded-lg p-2 w-full mb-4 text-black"
+        />
+
+        <label className="block mb-2 font-semibold text-lg">Search by Artist:</label>
+        <input
+          type="text"
+          value={searchQueries.artist}
+          onChange={(e) => setSearchQueries((prev) => ({ ...prev, artist: e.target.value }))}
+          placeholder="Search by Artist"
           className="border border-gray-300 rounded-lg p-2 w-full mb-4 text-black"
         />
       </div>
+
 
       {/* Display selected card and option to add to a deck */}
       {selectedCard && (
