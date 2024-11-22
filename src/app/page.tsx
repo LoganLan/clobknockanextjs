@@ -62,9 +62,7 @@ export default function Home() {
                     transform: "translateX(-10px)",
                 }}
             >
-                <h1 style={{ margin: 0, fontSize: "22px" }}>
-                    A Database for Magic the Gathering
-                </h1>
+                
             </div>
 
             <div
@@ -76,9 +74,7 @@ export default function Home() {
                     transform: "translateX(-10px)",
                 }}
             >
-                <h1 style={{ margin: 0, fontSize: "22px" }}>
-                    From finding cards to deck building,
-                </h1>
+                
             </div>
 
             {/* Test Animation Section */}
@@ -91,9 +87,7 @@ export default function Home() {
                     transform: "translateX(-10px)",
                 }}
             >
-                <h1 className="hover-rainbow" style={{ margin: 0, fontSize: "22px" }}>
-                    We have all your Magic the Gathering needs
-                </h1>
+                
             </div>
 
             
