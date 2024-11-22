@@ -32,7 +32,7 @@ const CardDetailPage = async ({ params }: { params: Promise<{ cardId: string }> 
   return (
     <div className="p-8">
         <Link
-        href="/decks"
+        href="/deck-builder"
         className="text-lg text-White_Colors-platinum bg-Green_Colors-India_Green hover:text-Blue_Colors-Cornflower_Blue hover:bg-White_Colors-Jet px-2 py-1 rounded-md"
       >
         Deck Builder
