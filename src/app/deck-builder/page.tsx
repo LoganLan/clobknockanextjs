@@ -311,35 +311,44 @@ const DeckBuilderPage: React.FC = () => {
       {loading ? (
         <p>Loading cards...</p>
       ) : (
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2 mt-8 text-White_Colors-anti-flash-white">
-          {Array.isArray(cards) && cards.length > 0 ? (
-            cards.map((card) => (
-              <div key={card.id} className="relative flex justify-center">
-                {/* Selection Circle */}
-                <input
-                  type="checkbox"
-                  checked={selectedCard?.id === card.id}
-                  onChange={(e) => handleCardSelect(card)}
-                  className="absolute top-2 left-2 w-5 h-5 cursor-pointer z-10"
-                />
+<div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2 mt-8 text-White_Colors-anti-flash-white">
+  {Array.isArray(cards) && cards.length > 0 ? (
+    cards.map((card) => (
+      <div
+        key={card.id}
+        className="relative flex justify-center cursor-pointer"
+        onClick={(e) => {
+          // Prevent navigation if the checkbox is clicked
+          if (e.target.tagName !== "INPUT") {
+            window.location.href = `/cards/${card.id}`;
+          }
+        }}
+      >
+        {/* Selection Circle */}
+        <input
+          type="checkbox"
+          checked={selectedCard?.id === card.id}
+          onChange={(e) => handleCardSelect(card)}
+          className="absolute top-2 left-2 w-5 h-5 cursor-pointer z-10"
+        />
 
-                {/* Card */}
-                <Scrycard
-                  card={card as any}
-                  size={"lg"}
-                  animated
-                  flippable
-                  symbol_text_renderer={function (props: IScrytextProps): React.ReactNode {
-                    return null;
-                  }}
-                />
-              </div>
+        {/* Card */}
+        <Scrycard
+          card={card as any}
+          size={"lg"}
+          animated
+          flippable
+          symbol_text_renderer={function (props: IScrytextProps): React.ReactNode {
+            return null;
+          }}
+        />
+      </div>
+    ))
+  ) : (
+    <p>No cards found.</p>
+  )}
+</div>
 
-            ))
-          ) : (
-            <p>No cards found.</p>
-          )}
-        </div>
       )}
 
       <Footer />
