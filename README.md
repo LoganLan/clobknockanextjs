@@ -1,36 +1,28 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+Clobknocka is a Magic The Gathering web app that allows users to create and manage MTG decks, search for cards and play against others.
 
-## Getting Started
+There is a landing page with all the buttons that send you to the different pages of the app. 
+There is also a header and a footer component.
+The header has all the page buttons, and the footer has the creaters names, and the privacy policy/ ter of service
 
-First, run the development server:
+There is a register and a login page, where users can register accounts and sign in.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+There is a deck builder page that allows users to search  for cards and create decks.
+You can search cards by name, artist, card type, creature type, and by mana cost.
+It also allows users to stay updated on card legality for all formats of MTG, such as standard, moderen, and commander. 
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The app displays all card prices at the bottom of the card in the deck page,so users know how much their cards are worth.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+There is a decks page which allows users to choose between the different decks they have. 
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+on the deck ID page it shows the cards with the selected deck, this is were the legality and pricing is shown.  
+users can also delete cards from their deck.
 
-## Learn More
+There is a help pages that has FAQ about the app, along with contact email if the app is not working. 
 
-To learn more about Next.js, take a look at the following resources:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Nathan Duncan - Worked on created most pages, such as the landing page, sign in page, register page, help page, Created the header/footer components for most pages, created the search by  creature type, Created the legality/ prices displays.
 
-## Deploy on Vercel
+Soraya Boza - created app database, search by mana cost, Added hover effect to cards in deckId page, Implemented delete cards from deck function. Added a filter to the search button for types/artists. Added a hover over the cards to lessen text clutter. Created initial  header/footer components, made it were added cards show up to their respective decks, made it were each deck is its own page.Added cards to deck, which is stored inside the database, created said database. Fixed UI of project,
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Logan Lann - Implemented card animations flip cards, and upside down cards.
