@@ -1,45 +1,63 @@
-import { use } from 'react';
-import { notFound } from 'next/navigation';
+import React from 'react';
+import Link from 'next/link';
 
-interface CardPageProps {
-  params: {
-    cardId: string;
+interface CardData {
+  id: string;
+  name: string;
+  image_uris: {
+    normal: string;
+  };
+  mana_cost: string;
+  type_line: string;
+  oracle_text: string;
+  prices: {
+    usd: string | null;
+    usd_foil: string | null;
+    eur: string | null;
   };
 }
 
-const fetchCardData = async (cardId: string) => {
+const fetchCardDetails = async (cardId: string): Promise<CardData | null> => {
   try {
     const response = await fetch(`https://api.scryfall.com/cards/${cardId}`);
     if (!response.ok) {
-      return null;
+      throw new Error('Failed to fetch card details');
     }
-    return await response.json();
+    return response.json();
   } catch (error) {
-    console.error("Error fetching card data:", error);
+    console.error('Error fetching card details:', error);
     return null;
   }
 };
 
-const CardPage: React.FC<CardPageProps> = ({ params }) => {
-  const { cardId } = params;
+const CardDetailPage = async ({ params }: { params: Promise<{ cardId: string }> }) => {
+  const { cardId } = await params; // Await `params` to resolve the promise.
+  const cardDetails = await fetchCardDetails(cardId);
 
-  // Fetch card data using the cardId
-  const cardData = use(() => fetchCardData(cardId));
-
-  if (!cardData) {
-    notFound();
+  if (!cardDetails) {
+    return <div>Card not found</div>;
   }
 
   return (
     <div className="p-8">
-      <h1 className="text-3xl font-bold mb-4">{cardData.name}</h1>
-      <img src={cardData.image_uris?.normal} alt={cardData.name} className="rounded-lg" />
-      <p className="mt-4">Mana Cost: {cardData.mana_cost || "N/A"}</p>
-      <p>Type Line: {cardData.type_line}</p>
-      <p>Oracle Text: {cardData.oracle_text}</p>
-      <p>Price (USD): {cardData.prices?.usd || "N/A"}</p>
+        <Link
+          href="/deck-builder"
+          className="text-lg text-White_Colors-platinum bg-Green_Colors-India_Green hover:text-Blue_Colors-Cornflower_Blue hover:bg-White_Colors-Jet px-2 py-1 rounded-md"
+        >
+          Deck Builder
+      </Link>
+      <h1 className="text-3xl font-bold">{cardDetails.name}</h1>
+      <img
+        src={cardDetails.image_uris.normal}
+        alt={cardDetails.name}
+        className="mt-4 rounded-lg"
+      />
+      <p className="mt-4"><strong>Mana Cost:</strong> {cardDetails.mana_cost}</p>
+      <p className="mt-2"><strong>Type:</strong> {cardDetails.type_line}</p>
+      <p className="mt-2"><strong>Description:</strong> {cardDetails.oracle_text}</p>
+      <p className="mt-2"><strong>Price (USD):</strong> {cardDetails.prices.usd || 'N/A'}</p>
     </div>
   );
 };
 
-export default CardPage;
+export default CardDetailPage;
