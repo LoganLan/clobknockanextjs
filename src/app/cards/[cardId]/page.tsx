@@ -1,61 +1,68 @@
 import React from 'react';
 import Link from 'next/link';
 
-interface CardData {
+interface CardDetails {
   id: string;
   name: string;
-  image_uris: {
+  image_uris?: {
     normal: string;
   };
-  mana_cost: string;
-  type_line: string;
-  oracle_text: string;
-  prices: {
-    usd: string | null;
-    usd_foil: string | null;
-    eur: string | null;
-  };
+  card_faces?: Array<{
+    name: string;
+    image_uris: {
+      normal: string;
+    };
+  }>;
+  oracle_text?: string;
 }
 
-const fetchCardDetails = async (cardId: string): Promise<CardData | null> => {
-  try {
+const CardDetailPage = async ({ params }: { params: Promise<{ cardId: string }> }) => {
+  const { cardId } = await params; // Await the params promise
+
+  const fetchCardDetails = async () => {
     const response = await fetch(`https://api.scryfall.com/cards/${cardId}`);
     if (!response.ok) {
       throw new Error('Failed to fetch card details');
     }
     return response.json();
-  } catch (error) {
-    console.error('Error fetching card details:', error);
-    return null;
-  }
-};
+  };
 
-const CardDetailPage = async ({ params }: { params: Promise<{ cardId: string }> }) => {
-  const { cardId } = await params; // Await `params` to resolve the promise.
-  const cardDetails = await fetchCardDetails(cardId);
-
-  if (!cardDetails) {
-    return <div>Card not found</div>;
-  }
+  const cardDetails: CardDetails = await fetchCardDetails();
 
   return (
     <div className="p-8">
         <Link
-          href="/deck-builder"
-          className="text-lg text-White_Colors-platinum bg-Green_Colors-India_Green hover:text-Blue_Colors-Cornflower_Blue hover:bg-White_Colors-Jet px-2 py-1 rounded-md"
-        >
-          Deck Builder
+        href="/decks"
+        className="text-lg text-White_Colors-platinum bg-Green_Colors-India_Green hover:text-Blue_Colors-Cornflower_Blue hover:bg-White_Colors-Jet px-2 py-1 rounded-md"
+      >
+        Deck Builder
       </Link>
       <h1 className="text-3xl font-bold">{cardDetails.name}</h1>
-      <img
-        src={cardDetails.image_uris.normal}
-        alt={cardDetails.name}
-        className="mt-4 rounded-lg"
-      />
-      <p className="mt-4"><strong>Mana Cost:</strong> {cardDetails.mana_cost}</p>
-      <p className="mt-2"><strong>Type:</strong> {cardDetails.type_line}</p>
-      <p className="mt-2"><strong>Description:</strong> {cardDetails.oracle_text}</p>
-      <p className="mt-2"><strong>Price (USD):</strong> {cardDetails.prices.usd || 'N/A'}</p>
+
+      {/* Handle Dual-Faced Cards */}
+      {cardDetails.card_faces ? (
+        <div className="grid grid-cols-2 gap-4 mt-4">
+          {cardDetails.card_faces.map((face, index) => (
+            <div key={index}>
+              <h2 className="text-xl font-semibold">{face.name}</h2>
+              <img
+                src={face.image_uris.normal}
+                alt={face.name}
+                className="rounded-lg"
+              />
+            </div>
+          ))}
+        </div>
+      ) : (
+        // Handle Single-Faced Cards
+        <img
+          src={cardDetails.image_uris?.normal}
+          alt={cardDetails.name}
+          className="mt-4 rounded-lg"
+        />
+      )}
+
+      <p className="mt-4 text-lg">{cardDetails.oracle_text || 'No description available.'}</p>
     </div>
   );
 };
