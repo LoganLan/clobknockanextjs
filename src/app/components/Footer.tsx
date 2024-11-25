@@ -11,7 +11,7 @@ const Footer: React.FC = () => {
         backgroundColor: "#3d3d3d",
       }}
     >
-      <p>&copy; Created by Nathan Duncan, Soraya Boza, and Logan Lan</p>
+      <p>&copy; Created by Soraya Boza, Nathan Duncan, and Logan Lan @ November, 2024</p>
       <p>
         <a href="#home" style={{ marginRight: "15px" }}>
           Privacy Policy
